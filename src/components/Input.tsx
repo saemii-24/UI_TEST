@@ -1,40 +1,45 @@
 import { searchProps } from "@/app/page";
 import React from "react";
-import { useForm, UseFormRegister } from "react-hook-form";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { CiSearch } from "react-icons/ci";
 
-interface InputProps {
-  name: string;
+interface InputProps<T extends FieldValues> {
+  name: Path<T>;
   label?: string;
   placeholder?: string;
   type?: string;
-  register: UseFormRegister<searchProps>;
+  register: UseFormRegister<T>;
   error?: string;
+  resetField?: () => void;
 }
 
-const Input: React.FC<InputProps> = ({
+const Input = <T extends FieldValues>({
   name,
   label,
-  placeholder,
+  placeholder = "",
   type = "text",
   register,
   error,
-}) => (
-  <div>
-    <div className='flex items-center gap-3'>
-      {label && <label htmlFor={name}>{label}</label>}
-      <div>
-        <input
-          id={name}
-          placeholder={placeholder}
-          type={type}
-          {...register(name)}
-          className={`border px-4 py-2 ${error ? "border-red-500" : "border-gray-300"}`}
-        />
-        <CiSearch />
-      </div>
+}: InputProps<T>) => (
+  <div className='flex flex-col gap-2'>
+    {label && (
+      <label htmlFor={name} className='text-sm font-medium text-gray-700'>
+        {label}
+      </label>
+    )}
+    <div className='relative flex items-center'>
+      <input
+        id={name}
+        placeholder={placeholder}
+        type={type}
+        {...register(name)}
+        className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+          error ? "border-red-500" : "border-gray-300"
+        }`}
+      />
+      <CiSearch className='absolute right-3 text-gray-400' />
     </div>
-    {error && <p className='text-red-500'>{error}</p>}
+    {error && <p className='text-xs text-red-500'>{error}</p>}
   </div>
 );
 
