@@ -1,7 +1,7 @@
-import { searchProps } from "@/app/page";
 import React from "react";
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { CiSearch } from "react-icons/ci";
+import { IoIosClose } from "react-icons/io";
 
 interface InputProps<T extends FieldValues> {
   name: Path<T>;
@@ -27,17 +27,20 @@ const Input = <T extends FieldValues>({
         {label}
       </label>
     )}
-    <div className='relative flex items-center'>
+    <div
+      className={`w-full flex items-center gap-3 rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+        error ? "border-red-500" : "border-gray-300"
+      }`}
+    >
+      <CiSearch className=' right-3 text-gray-400' />
       <input
         id={name}
         placeholder={placeholder}
         type={type}
         {...register(name)}
-        className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-          error ? "border-red-500" : "border-gray-300"
-        }`}
+        className='flex-1'
       />
-      <CiSearch className='absolute right-3 text-gray-400' />
+      <IoIosClose />
     </div>
     {error && <p className='text-xs text-red-500'>{error}</p>}
   </div>
