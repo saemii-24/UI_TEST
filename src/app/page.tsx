@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import Chip from "@/components/Chip";
 import Input from "@/components/Input";
 import Title from "@/components/Title";
+import Dropdown from "@/components/Dropdown";
 
 export interface searchProps {
   searchKeyword: string;
@@ -29,11 +30,14 @@ export default function Home() {
   });
 
   const {
+    watch,
     register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<searchProps>();
+
+  const searchKeyword = watch("searchKeyword");
 
   const onSubmit: SubmitHandler<searchProps> = (data) => {
     const currentKeywords = localStorage.getItem("searchKeywords");
@@ -46,7 +50,6 @@ export default function Home() {
 
   const [localSearchKeyword, setLocalSearchKeyword] = useState<string[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [filteredKeywords, setFilteredKeywords] = useState<string[]>([]);
 
   useEffect(() => {
     const savedKeywords = localStorage.getItem("searchKeywords");
@@ -79,6 +82,13 @@ export default function Home() {
           placeholder='검색어를 입력하세요'
           register={register}
         />
+        {localSearchKeyword.length > 0 && (
+          <Dropdown
+            localSearchKeyword={localSearchKeyword}
+            setValue={setValue}
+            onRemove={removeKeyword}
+          />
+        )}
       </form>
     </div>
   );
