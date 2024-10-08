@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 
@@ -29,27 +28,26 @@ export default function Home() {
     queryFn: fetchData,
   });
 
-  console.log(data);
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<searchProps>();
 
-  // submit할 경우 localStorage에 내용을 저장
   const onSubmit: SubmitHandler<searchProps> = (data) => {
     const currentKeywords = localStorage.getItem("searchKeywords");
     const savedKeywords = currentKeywords ? JSON.parse(currentKeywords) : [];
-
-    // 문자열만 추가하도록 수정
     const updatedKeywords = [...savedKeywords, data.searchKeyword];
     localStorage.setItem("searchKeywords", JSON.stringify(updatedKeywords));
-
     setLocalSearchKeyword(updatedKeywords);
+    setDropdownVisible(false); // 검색 후 드롭다운 숨기기
   };
 
-  // localStorage에서 초기 검색 키워드 로드
   const [localSearchKeyword, setLocalSearchKeyword] = useState<string[]>([]);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [filteredKeywords, setFilteredKeywords] = useState<string[]>([]);
+
   useEffect(() => {
     const savedKeywords = localStorage.getItem("searchKeywords");
     if (savedKeywords) {
@@ -57,7 +55,7 @@ export default function Home() {
     }
   }, []);
 
-  // 검색 키워드 삭제 로직
+  // 검색 키워드 삭제
   const removeKeyword = (keywordToRemove: string) => {
     const updatedKeywords = localSearchKeyword.filter(
       (keyword) => keyword !== keywordToRemove,
@@ -65,6 +63,9 @@ export default function Home() {
     setLocalSearchKeyword(updatedKeywords);
     localStorage.setItem("searchKeywords", JSON.stringify(updatedKeywords));
   };
+
+  //사용자의 검색 기록을 가지고, 추가 내용을 보여준다.
+  //debounce 기능을 활용해 사용자가 특정 시간동안 입력이 없는경우 api를 호출한다.
 
   if (isLoading) return <div>로딩중</div>;
 
@@ -79,13 +80,6 @@ export default function Home() {
           register={register}
         />
       </form>
-      <div className='flex gap-4 flex-wrap ml-auto items-center justify-center'>
-        {localSearchKeyword.map((keyword: string) => (
-          <Chip key={keyword} onRemove={removeKeyword}>
-            {keyword}
-          </Chip>
-        ))}
-      </div>
     </div>
   );
 }
