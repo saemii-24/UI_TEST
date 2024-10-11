@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom";
 import Dropdown from "@/components/Dropdown";
 import Input from "@/components/Input";
 import { render, screen, fireEvent } from "@testing-library/react";
@@ -11,9 +10,15 @@ describe("Dropdown 컴포넌트 테스트", () => {
     const mockOnRemove = vi.fn();
     const localSearchKeyword = ["apple", "banana", "kiwi"];
 
+    //page.tsx에서 사용하는것과 동일하게 Input 컴포넌트에 props를 내려준다.
     render(
       <>
-        <Input name='search' register={mockRegister} />
+        <Input
+          name='searchKeyword'
+          label='배경 검색'
+          placeholder='검색어를 입력하세요'
+          register={mockRegister}
+        />
         <Dropdown
           localSearchKeyword={localSearchKeyword}
           setValue={mockSetValue}
