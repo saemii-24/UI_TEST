@@ -10,7 +10,7 @@ const Chip = ({ children, onRemove }: ChipProps) => {
   return (
     <button
       type='button'
-      className='font-medium border hover:bg-blue-100 transition border-blue-400 rounded-full flex items-center justify-center gap-2 px-4 py-[6px]'
+      className='flex items-center justify-center gap-2 rounded-full border border-blue-400 px-4 py-[6px] font-medium transition hover:bg-blue-100'
     >
       {children}
       <IoIosClose onClick={() => onRemove(children as string)} className='font-bold' />

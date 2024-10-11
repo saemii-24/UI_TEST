@@ -11,11 +11,11 @@ interface DropdownProps {
 
 const Dropdown = ({ localSearchKeyword, setValue, onRemove }: DropdownProps) => {
   return (
-    <ul className='w-full absolute bg-white border rounded-md mt-1'>
+    <ul className='absolute mt-1 w-full rounded-md border bg-white'>
       {localSearchKeyword.map((keyword) => (
         <li
           key={keyword}
-          className='p-2 cursor-pointer hover:bg-gray-200 flex pl-4 items-center'
+          className='flex cursor-pointer items-center p-2 pl-4 hover:bg-gray-200'
         >
           <span
             className='flex-1'
