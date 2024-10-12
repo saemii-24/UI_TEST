@@ -27,6 +27,7 @@ const Dropdown = ({ localSearchKeyword, setValue, onRemove }: DropdownProps) => 
           </span>
           <div className='px-4'>
             <CgClose
+              data-testid={keyword}
               onClick={(e) => {
                 e.preventDefault();
                 onRemove(keyword as string);

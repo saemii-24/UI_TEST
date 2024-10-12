@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
+import type { ImageListProps } from "@/types/type";
 
 import Chip from "@/components/Chip";
 import Input from "@/components/Input";
 import Title from "@/components/Title";
 import Dropdown from "@/components/Dropdown";
+import List from "@/components/List";
 
 export interface searchProps {
   searchKeyword: string;
@@ -24,7 +26,7 @@ export default function Home() {
     return response.json();
   };
 
-  const { isLoading, data } = useQuery({
+  const { isLoading, data } = useQuery<{ hits: ImageListProps[] }, Error>({
     queryKey: ["searchPicture"],
     queryFn: fetchData,
   });
@@ -90,6 +92,7 @@ export default function Home() {
           />
         )}
       </form>
+      {data?.hits && <List imageList={data?.hits} />}
     </div>
   );
 }
