@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
-import type { ImageListProps } from "@/types/type";
 
 import Chip from "@/components/Chip";
 import Input from "@/components/Input";
@@ -15,22 +13,6 @@ export interface searchProps {
 }
 
 export default function Home() {
-  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-  const fetchURL = `https://pixabay.com/api/?key=${apiKey}&q=yellow+flowers&image_type=photo`;
-
-  const fetchData = async () => {
-    const response = await fetch(fetchURL);
-    if (!response.ok) {
-      throw new Error("응답 도중 오류가 발생했습니다.");
-    }
-    return response.json();
-  };
-
-  const { isLoading, data } = useQuery<{ hits: ImageListProps[] }, Error>({
-    queryKey: ["searchPicture"],
-    queryFn: fetchData,
-  });
-
   const {
     watch,
     register,
@@ -72,8 +54,6 @@ export default function Home() {
   //사용자의 검색 기록을 가지고, 추가 내용을 보여준다.
   //debounce 기능을 활용해 사용자가 특정 시간동안 입력이 없는경우 api를 호출한다.
 
-  if (isLoading) return <div>로딩중</div>;
-
   return (
     <div className='min-h-screen w-full'>
       <Title>배경화면을 검색해보아요!</Title>
@@ -92,7 +72,8 @@ export default function Home() {
           />
         )}
       </form>
-      {data?.hits && <List imageList={data?.hits} />}
+
+      <List />
     </div>
   );
 }
