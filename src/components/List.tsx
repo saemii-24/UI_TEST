@@ -60,7 +60,7 @@ const List = () => {
 
   return (
     <div>
-      <div className='mt-7 columns-2 space-y-6 px-2 md:columns-3 md:px-5 lg:col-span-4 xl:col-span-5'>
+      <div className='mt-7 columns-2 space-y-6 px-2 md:columns-4 md:px-5 lg:col-span-4 xl:col-span-5'>
         {currentData.map((item: ImageListProps, index: number) => {
           return (
             <div key={index}>

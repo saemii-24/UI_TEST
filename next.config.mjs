@@ -4,7 +4,22 @@ const nextConfig = {
     instrumentationHook: true,
   },
   images: {
-    domains: ["pixabay.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "pixabay.com",
+        port: "",
+        pathname: "/**",
+        search: "",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.pixabay.com",
+        port: "",
+        pathname: "/**",
+        search: "",
+      },
+    ],
   },
 };
 

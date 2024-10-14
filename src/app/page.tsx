@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import Image from "next/image";
 
 import Chip from "@/components/Chip";
 import Input from "@/components/Input";
@@ -53,10 +54,25 @@ export default function Home() {
 
   //사용자의 검색 기록을 가지고, 추가 내용을 보여준다.
   //debounce 기능을 활용해 사용자가 특정 시간동안 입력이 없는경우 api를 호출한다.
+  const [defaultImage, setDefaultImage] = useState<string>(
+    "https://cdn.pixabay.com/photo/2019/11/11/07/49/hanok-4617481_1280.jpg",
+  );
 
   return (
     <div className='min-h-screen w-full'>
-      <Title>배경화면을 검색해보아요!</Title>
+      <div className='relative'>
+        <div className='relative flex h-[60vh] w-full items-center justify-center'>
+          {/* <div className='absolute inset-0 z-10 bg-white/40 backdrop-blur-md'></div> */}
+          {/* <div className='absolute inset-0 z-10 bg-white/40 '></div> */}
+          <Image
+            src={defaultImage}
+            fill
+            alt='backgroundImage'
+            className='z-0 object-cover'
+          />
+          <Title className='z-20 -mt-20'>배경화면을 검색해보아요!</Title>
+        </div>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           name='searchKeyword'
