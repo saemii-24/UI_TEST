@@ -8,6 +8,7 @@ import Input from "@/components/Input";
 import Title from "@/components/Title";
 import Dropdown from "@/components/Dropdown";
 import List from "@/components/List";
+import Header from "@/components/Header";
 
 export interface searchProps {
   searchKeyword: string;
@@ -61,6 +62,7 @@ export default function Home() {
   return (
     <div className='min-h-screen w-full'>
       <div className='relative'>
+        <Header />
         <div className='relative flex h-[60vh] w-full items-center justify-center'>
           {/* <div className='absolute inset-0 z-10 bg-white/40 backdrop-blur-md'></div> */}
           {/* <div className='absolute inset-0 z-10 bg-white/40 '></div> */}
@@ -76,8 +78,8 @@ export default function Home() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           name='searchKeyword'
-          label='배경 검색'
-          placeholder='검색어를 입력하세요'
+          // label='배경 검색'
+          placeholder='원하는 이미지를 검색해보세요!'
           register={register}
         />
         {localSearchKeyword.length > 0 && (
@@ -89,7 +91,7 @@ export default function Home() {
         )}
       </form>
 
-      <List />
+      {/* <List /> */}
     </div>
   );
 }
