@@ -8,7 +8,7 @@ interface ListProps {
   searchKeyword: string;
 }
 
-const List = ({ searchKeyword = "꽃" }: ListProps) => {
+const List = ({ searchKeyword }: ListProps) => {
   const [columns, setColumns] = useState<ImageListProps[][]>([[], [], []]);
   const { ref, inView } = useInView({ threshold: 0 });
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
@@ -25,7 +25,7 @@ const List = ({ searchKeyword = "꽃" }: ListProps) => {
     return { ...data, currentPage: pageParam };
   };
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, refetch, hasNextPage } = useInfiniteQuery({
     queryKey: ["ImageList", searchKeyword],
     queryFn: fetchData,
     initialPageParam: 1,
@@ -35,6 +35,10 @@ const List = ({ searchKeyword = "꽃" }: ListProps) => {
       return nextPage <= maxPages ? nextPage : undefined;
     },
   });
+
+  useEffect(() => {
+    refetch();
+  }, [searchKeyword]);
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -85,7 +89,7 @@ const ImageColumn = ({ imageList }: { imageList: ImageListProps[] }) => {
         <div key={item.id} className='relative'>
           <div className='relative cursor-pointer before:absolute before:z-10 before:size-full before:opacity-50 hover:before:bg-gray-600'>
             <Image
-              src={item.previewURL}
+              src={item.webformatURL}
               alt={item.user}
               width={500}
               height={500}

@@ -91,7 +91,7 @@ export default function Home() {
         )}
       </form>
 
-      <List />
+      <List searchKeyword={searchKeyword} />
     </div>
   );
 }
