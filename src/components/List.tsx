@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import type { ImageListProps } from "@/types/type"; // Assuming ImageListProps is correctly defined elsewhere
+import { IoGitMerge } from "react-icons/io5";
+import ImageCard from "./ImageCard";
 
 interface ListProps {
   searchKeyword: string;
@@ -71,7 +73,7 @@ const List = ({ searchKeyword }: ListProps) => {
         {columns &&
           columns.map((column, columnIndex) => (
             <div key={columnIndex} className='flex-1 space-y-6'>
-              <ImageColumn imageList={column} />
+              <ImageCard imageList={column} />
             </div>
           ))}
       </div>
@@ -81,23 +83,3 @@ const List = ({ searchKeyword }: ListProps) => {
 };
 
 export default List;
-
-const ImageColumn = ({ imageList }: { imageList: ImageListProps[] }) => {
-  return (
-    <>
-      {imageList.map((item: ImageListProps) => (
-        <div key={item.id} className='relative'>
-          <div className='relative cursor-pointer before:absolute before:z-10 before:size-full before:opacity-50 hover:before:bg-gray-600'>
-            <Image
-              src={item.webformatURL}
-              alt={item.user}
-              width={500}
-              height={500}
-              className='relative z-0 cursor-pointer'
-            />
-          </div>
-        </div>
-      ))}
-    </>
-  );
-};
