@@ -12,7 +12,7 @@ export interface ImageListProps {
   previewHeight: number;
   previewURL: string;
   previewWidth: number;
-  tags: string;
+  tags: string[];
   type: string;
   user: string;
   userImageURL: string;
