@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import type { ImageListProps } from "@/types/type"; // Assuming ImageListProps is correctly defined elsewhere
+import type { ImageListProps } from "@/types/type";
 import ImageCard from "./ImageCard";
+import Error from "./Error";
 
 interface ListProps {
   searchKeyword: string;
@@ -64,10 +65,12 @@ const List = ({ searchKeyword }: ListProps) => {
     }
   }, [data]);
 
+  if (isError) {
+    return <Error />;
+  }
+
   return (
     <div className='mx-auto max-w-[1300px]'>
-      {isLoading && <div>Loading...</div>} {/* Loading State */}
-      {isError && <div>{error.message}</div>} {/* Error State */}
       {columns &&
         columns.map((column, columnIndex) => (
           <div key={columnIndex} className='flex-1 space-y-6'>
