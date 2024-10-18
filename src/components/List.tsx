@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import type { ImageListProps } from "@/types/type"; // Assuming ImageListProps is correctly defined elsewhere
-import { IoGitMerge } from "react-icons/io5";
 import ImageCard from "./ImageCard";
 
 interface ListProps {
@@ -27,16 +25,17 @@ const List = ({ searchKeyword }: ListProps) => {
     return { ...data, currentPage: pageParam };
   };
 
-  const { data, fetchNextPage, refetch, hasNextPage } = useInfiniteQuery({
-    queryKey: ["ImageList", searchKeyword],
-    queryFn: fetchData,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      const maxPages = Math.ceil(lastPage.totalHits / 30);
-      const nextPage = lastPage.currentPage + 1;
-      return nextPage <= maxPages ? nextPage : undefined;
-    },
-  });
+  const { data, fetchNextPage, refetch, hasNextPage, isLoading, isError, error } =
+    useInfiniteQuery({
+      queryKey: ["ImageList", searchKeyword],
+      queryFn: fetchData,
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        const maxPages = Math.ceil(lastPage.totalHits / 30);
+        const nextPage = lastPage.currentPage + 1;
+        return nextPage <= maxPages ? nextPage : undefined;
+      },
+    });
 
   useEffect(() => {
     refetch();
@@ -47,8 +46,6 @@ const List = ({ searchKeyword }: ListProps) => {
       fetchNextPage();
     }
   }, [inView, hasNextPage]);
-
-  console.log(data);
 
   useEffect(() => {
     if (data) {
@@ -69,14 +66,17 @@ const List = ({ searchKeyword }: ListProps) => {
 
   return (
     <div className='mx-auto max-w-[1300px]'>
-      <div className='flex space-x-6'>
-        {columns &&
-          columns.map((column, columnIndex) => (
-            <div key={columnIndex} className='flex-1 space-y-6'>
-              <ImageCard imageList={column} />
-            </div>
-          ))}
-      </div>
+      {isLoading && <div>Loading...</div>} {/* Loading State */}
+      {isError && <div>{error.message}</div>} {/* Error State */}
+      {columns &&
+        columns.map((column, columnIndex) => (
+          <div key={columnIndex} className='flex-1 space-y-6'>
+            <ImageCard imageList={column} />
+          </div>
+        ))}
+      {columns.every((column) => column.length === 0) && (
+        <div className='py-4 text-center'>이미지가 없습니다.</div>
+      )}
       <div ref={ref} className='h-4 w-full bg-red-100'></div>
     </div>
   );
