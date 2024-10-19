@@ -82,13 +82,13 @@ export default function Home() {
           placeholder='원하는 이미지를 검색해보세요!'
           register={register}
         />
-        {localSearchKeyword.length > 0 && (
+        {/* {localSearchKeyword.length > 0 && (
           <Dropdown
             localSearchKeyword={localSearchKeyword}
             setValue={setValue}
             onRemove={removeKeyword}
           />
-        )}
+        )} */}
       </form>
 
       <List searchKeyword={searchKeyword} />

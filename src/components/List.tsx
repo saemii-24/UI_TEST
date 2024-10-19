@@ -10,17 +10,13 @@ interface ListProps {
 }
 
 const List = ({ searchKeyword }: ListProps) => {
-  const [columns, setColumns] = useState<ImageListProps[][]>([[], [], []]);
   const { ref, inView } = useInView({ threshold: 0 });
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
   const fetchData = async ({ pageParam = 1 }: { pageParam: number }) => {
-    const fetchURL = `https://pixabay.com/api/?key=${apiKey}&q=${searchKeyword}&image_type=photo&page=${pageParam}&per_page=30`;
+    const fetchURL = `https://pixabay.com/api/?key=${apiKey}&q=${searchKeyword}&image_type=photo&page=${pageParam}&per_page=1`;
 
     const response = await fetch(fetchURL);
-    if (!response.ok) {
-      throw new Error("응답 도중 오류가 발생했습니다.");
-    }
     const data = await response.json();
 
     return { ...data, currentPage: pageParam };
@@ -38,6 +34,8 @@ const List = ({ searchKeyword }: ListProps) => {
       },
     });
 
+  console.log(data);
+
   useEffect(() => {
     refetch();
   }, [searchKeyword]);
@@ -48,39 +46,13 @@ const List = ({ searchKeyword }: ListProps) => {
     }
   }, [inView, hasNextPage]);
 
-  useEffect(() => {
-    if (data) {
-      const allImages = data.pages.flatMap((page) => page.hits);
-      const newColumns: ImageListProps[][] = [[], [], []];
-
-      allImages.forEach((image: ImageListProps, index: number) => {
-        newColumns[index % 3].push(image);
-      });
-
-      setColumns((prevColumns) => [
-        [...prevColumns[0], ...newColumns[0]],
-        [...prevColumns[1], ...newColumns[1]],
-        [...prevColumns[2], ...newColumns[2]],
-      ]);
-    }
-  }, [data]);
-
   if (isError) {
     return <Error />;
   }
 
   return (
     <div className='mx-auto max-w-[1300px]'>
-      {columns &&
-        columns.map((column, columnIndex) => (
-          <div key={columnIndex} className='flex-1 space-y-6'>
-            <ImageCard imageList={column} />
-          </div>
-        ))}
-      {columns.every((column) => column.length === 0) && (
-        <div className='py-4 text-center'>이미지가 없습니다.</div>
-      )}
-      <div ref={ref} className='h-4 w-full bg-red-100'></div>
+      <div></div>
     </div>
   );
 };
