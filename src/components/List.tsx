@@ -4,12 +4,13 @@ import { useInView } from "react-intersection-observer";
 import type { ImageListProps } from "@/types/type";
 import ImageCard from "./ImageCard";
 import Error from "./Error";
+import Empty from "./Empty";
 
 interface ListProps {
   searchKeyword: string;
 }
 
-const List = ({ searchKeyword }: ListProps) => {
+const List = ({ searchKeyword = "" }: ListProps) => {
   const { ref, inView } = useInView({ threshold: 0 });
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
@@ -47,7 +48,12 @@ const List = ({ searchKeyword }: ListProps) => {
   }, [inView, hasNextPage]);
 
   if (isError) {
-    return <Error />;
+    return (
+      <>
+        <Empty searchKeyword='어쩌고' />
+        <Error />
+      </>
+    );
   }
 
   return (
