@@ -11,7 +11,14 @@ const config: StorybookConfig = {
   ],
   framework: {
     name: "@storybook/nextjs",
-    options: {},
+    options: {
+      cssLoaderOptions: {
+        importLoaders: 1,
+      },
+      postcssLoaderOptions: {
+        implementation: require("postcss"),
+      },
+    },
   },
 };
 export default config;
