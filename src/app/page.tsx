@@ -63,35 +63,27 @@ export default function Home() {
     <div className='min-h-screen w-full'>
       <div className='relative'>
         <Header />
+        {/* 헤더 이미지 영역 */}
         <div className='relative flex h-[60vh] w-full items-center justify-center'>
-          {/* <div className='absolute inset-0 z-10 bg-white/40 backdrop-blur-md'></div> */}
-          {/* <div className='absolute inset-0 z-10 bg-white/40 '></div> */}
           <Image
             src={defaultImage}
             fill
             alt='backgroundImage'
             className='z-0 object-cover'
           />
-          <Title className='z-20 -mt-20'>배경화면을 검색해보아요!</Title>
+          {/* <Title className='z-20 -mt-20'>배경화면을 검색해보아요!</Title> */}
         </div>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      {/* <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           name='searchKeyword'
           // label='배경 검색'
           placeholder='원하는 이미지를 검색해보세요!'
           register={register}
         />
-        {/* {localSearchKeyword.length > 0 && (
-          <Dropdown
-            localSearchKeyword={localSearchKeyword}
-            setValue={setValue}
-            onRemove={removeKeyword}
-          />
-        )} */}
       </form>
 
-      <List searchKeyword={searchKeyword} />
+      <List searchKeyword={searchKeyword} /> */}
     </div>
   );
 }
