@@ -10,7 +10,7 @@ const Title = ({ children, className }: TitleProps) => {
   return (
     <h1
       className={cn(
-        "bg-white text-center text-[2rem] font-black block px-5 py-1 rounded-md",
+        "text-center text-[3rem] font-black text-white block px-5 py-1 rounded-md",
         className,
       )}
     >

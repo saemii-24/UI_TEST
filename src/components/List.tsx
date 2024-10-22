@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import type { ImageListProps } from "@/types/type";
-import ImageCard from "./ImageCard";
 import Error from "./Error";
 import Empty from "./Empty";
 
@@ -34,8 +32,6 @@ const List = ({ searchKeyword = "" }: ListProps) => {
         return nextPage <= maxPages ? nextPage : undefined;
       },
     });
-
-  console.log(data);
 
   useEffect(() => {
     refetch();
