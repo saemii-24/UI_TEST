@@ -61,26 +61,26 @@ export default function Home() {
 
   return (
     <div className='min-h-screen w-full'>
-      <div className='relative'>
+      <div className='relative bg-gray-900'>
         <Header />
-        <div className='relative flex h-[70vh] w-full items-center justify-center'>
-          <Image
-            src={defaultImage}
-            fill
-            alt='backgroundImage'
-            className='z-0 object-cover'
-          />
-          <Title className='z-20 -mt-20'>배경화면을 검색해보아요!</Title>
+        <div className='relative flex h-[320px] w-full items-center justify-center'>
+          <div
+            className='masked-image'
+            style={{ backgroundImage: `url(${defaultImage})` }}
+          ></div>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className='container absolute bottom-10 left-1/2 -translate-x-1/2'
+          >
+            <Title className='z-20 mb-5'>배경화면을 검색해보아요!</Title>
+            <Input
+              className='w-full'
+              name='searchKeyword'
+              placeholder='원하는 이미지를 검색해보세요!'
+              register={register}
+            />
+          </form>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            className='container absolute bottom-20 left-1/2 mx-auto w-3/5 -translate-x-1/2'
-            name='searchKeyword'
-            // label='배경 검색'
-            placeholder='원하는 이미지를 검색해보세요!'
-            register={register}
-          />
-        </form>
       </div>
 
       <List searchKeyword={searchKeyword} />

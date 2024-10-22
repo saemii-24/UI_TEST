@@ -31,7 +31,7 @@ const Input = <T extends FieldValues>({
       </label>
     )}
     <div
-      className={`flex w-full items-center gap-3 rounded-full   bg-gray-100 px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 `}
+      className={`flex w-full items-center gap-3 rounded-full  bg-white px-6 py-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500 `}
     >
       <FiSearch className='right-3 font-semibold text-gray-800' />
       <input
@@ -41,7 +41,7 @@ const Input = <T extends FieldValues>({
         {...register(name)}
         className='flex-1 bg-transparent outline-none placeholder:font-medium placeholder:text-gray-500'
       />
-      <IoIosClose className='text-2xl text-gray-800' />
+      <IoIosClose className='cursor-pointer text-2xl text-gray-800' />
     </div>
     {error && <p className='text-xs text-red-500'>{error}</p>}
   </div>

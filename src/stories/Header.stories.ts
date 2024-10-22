@@ -1,21 +1,23 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
-
-import { Header } from './Header';
+import Header from "@/components/Header";
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: 'Example/Header',
+  title: "Public/Header",
   component: Header,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-    layout: 'fullscreen',
+    layout: "fullscreen",
   },
-  args: {
-    onLogin: fn(),
-    onLogout: fn(),
-    onCreateAccount: fn(),
+  argTypes: {
+    user: {
+      control: { type: "text" },
+    },
+    status: {
+      control: {
+        type: "radio",
+        options: ["login", "logout"],
+      },
+    },
   },
 } satisfies Meta<typeof Header>;
 
@@ -24,10 +26,14 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
   args: {
-    user: {
-      name: 'Jane Doe',
-    },
+    user: "신짱구",
+    status: "login",
   },
 };
 
-export const LoggedOut: Story = {};
+export const LoggedOut: Story = {
+  args: {
+    user: "게스트",
+    status: "logout",
+  },
+};

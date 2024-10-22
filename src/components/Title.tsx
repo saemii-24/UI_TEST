@@ -1,20 +1,24 @@
-import React from "react";
+import React, { HTMLAttributes } from "react";
 import cn from "classnames";
+import { VscSparkleFilled } from "react-icons/vsc";
 
-interface TitleProps {
+// h1 요소를 확장하려면 HTMLAttributes<HTMLHeadingElement> 사용
+interface TitleProps extends HTMLAttributes<HTMLHeadingElement> {
   children: React.ReactNode;
   className?: string;
 }
 
-const Title = ({ children, className }: TitleProps) => {
+const Title = ({ children, className, ...rest }: TitleProps) => {
   return (
     <h1
       className={cn(
-        "text-center text-[3rem] font-black text-white block px-5 py-1 rounded-md",
+        "text-4xl font-black text-white rounded-md flex items-center gap-2",
         className,
       )}
+      {...rest}
     >
       {children}
+      <VscSparkleFilled />
     </h1>
   );
 };
