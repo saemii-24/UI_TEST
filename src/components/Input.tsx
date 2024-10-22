@@ -4,7 +4,7 @@ import { FiSearch } from "react-icons/fi";
 import { IoIosClose } from "react-icons/io";
 
 interface InputProps<T extends FieldValues> extends HTMLAttributes<HTMLDivElement> {
-  name: Path<T>;
+  name: Path<T>; // Path<T>로 정의하여 문자열 리터럴을 허용
   label?: string;
   placeholder?: string;
   type?: string;

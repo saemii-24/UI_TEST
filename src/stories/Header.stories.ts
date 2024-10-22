@@ -2,11 +2,14 @@ import Header from "@/components/Header";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-  title: "Public/Header",
+  title: "Header/Header",
   component: Header,
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
+    backgrounds: {
+      default: "dark",
+    },
   },
   argTypes: {
     user: {
@@ -26,7 +29,7 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
   args: {
-    user: "신짱구",
+    user: "김철수",
     status: "login",
   },
 };

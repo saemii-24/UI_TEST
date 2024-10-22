@@ -61,13 +61,15 @@ export default function Home() {
 
   return (
     <div className='min-h-screen w-full'>
-      <div className='relative bg-gray-900'>
+      <div className='relative'>
         <Header />
         <div className='relative flex h-[320px] w-full items-center justify-center'>
-          <div
-            className='masked-image'
-            style={{ backgroundImage: `url(${defaultImage})` }}
-          ></div>
+          <Image
+            src={defaultImage}
+            fill
+            alt='backgroundImage'
+            className='z-0 object-cover'
+          />
           <form
             onSubmit={handleSubmit(onSubmit)}
             className='container absolute bottom-10 left-1/2 -translate-x-1/2'
