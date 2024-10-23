@@ -19,6 +19,13 @@ const nextConfig = {
         pathname: "/**",
         search: "",
       },
+      {
+        protocol: "https",
+        hostname: "i.namu.wiki/",
+        port: "",
+        pathname: "/i**",
+        search: "",
+      },
     ],
   },
 };

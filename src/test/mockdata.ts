@@ -18,11 +18,13 @@ export const mockImageData: ImageListProps[] = [
     tags: "액션가면,초코비",
     type: "photo",
     user: "신짱구",
-    userImageURL: "https://example.com/user-image-url.jpg",
+    userImageURL:
+      "https://i.namu.wiki/i/ski_BSi3UIzyfgirmri8gUnoBpU08nLxs-af7DxS5qKf-QeP_rDP_6eh05bqtWueF6ifI3B3jadmYsbeEVm5ThTrokCDiByt8pIrv-TC--HuVEwU72DjHEOarB5LLPDKacLuM7xEvkMMH1evfsjEUw.webp",
     user_id: 78910,
     views: 1000,
     webformatHeight: 300,
-    webformatURL: "https://example.com/webformat-url.jpg",
+    webformatURL:
+      "https://i.namu.wiki/i/Xlemnq7yDxo7UySM67TdWk7bLD6YlH1DVCcEsDsDUBzA1YObHzAkw2HNhT68TsBWNpN7W80B8JhLxY_MFWd0Yw.webp",
     webformatWidth: 400,
   },
   {

@@ -1,54 +1,37 @@
 import React from "react";
 import Image from "next/image";
 import type { ImageListProps } from "@/types/type";
-import Tag from "./Tag";
 
-const ImageCard = ({ imageList }: { imageList: ImageListProps[] }) => {
+const ImageCard = ({ imageList }: { imageList: Partial<ImageListProps> }) => {
+  if (!imageList.webformatURL) return;
+  console.log("이미지가 존재합니다.");
   return (
-    <div className='relative'>
-      {imageList.map((item, index) => (
-        <div key={item.id + `${index}`} className='group relative'>
-          {/* 이미지 컨테이너 */}
-          <div className='relative size-[500px] cursor-pointer'>
+    <div>
+      <div className='relative w-full max-w-[400px] overflow-hidden rounded-xl'>
+        <Image
+          src={imageList.webformatURL}
+          alt={imageList.id + "image" + imageList.user}
+          width={0}
+          height={0}
+          sizes='100vw'
+          style={{ width: "100%", height: "auto" }}
+          priority
+        />
+      </div>
+      {imageList.user && imageList.userImageURL && (
+        <div className='mt-4 flex items-center  gap-2'>
+          <div className='relative size-12 overflow-hidden rounded-full'>
             <Image
-              src={item.webformatURL}
-              alt={item.user}
-              width={500}
-              height={500}
-              className='relative z-0 cursor-pointer'
+              src={imageList.userImageURL}
+              alt={imageList.id + "image" + imageList.user}
+              fill
+              style={{ objectFit: "cover" }}
+              priority
             />
-
-            {/* Hover시 나타나는 검은 투명 배경 및 유저 정보 */}
-            <div className='absolute inset-0 z-10 flex items-center justify-center gap-4 bg-black bg-opacity-60 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-              {/* 사용자 사진이 있는 경우에만 렌더링 */}
-              {item.userImageURL && (
-                <div className='size-12 overflow-hidden rounded-full'>
-                  <Image
-                    src={item.userImageURL}
-                    alt={item.user}
-                    width={48}
-                    height={48}
-                    className='object-cover'
-                  />
-                </div>
-              )}
-
-              {/* 사용자 이름 */}
-              {item.user && <div className='font-medium text-white'>{item.user}</div>}
-            </div>
           </div>
-
-          {/* 태그가 있는 경우에만 렌더링 */}
-          {/* {item.tags &&
-            item.tags.split(",").map((tag) => {
-              return (
-                <React.Fragment key={tag}>
-                  <Tag>{tag}</Tag>
-                </React.Fragment>
-              );
-            })} */}
+          <div className='text-lg font-semibold'>Photo by. {imageList.user}</div>
         </div>
-      ))}
+      )}
     </div>
   );
 };
