@@ -1,6 +1,6 @@
 import { ImageListProps } from "@/types/type";
 
-export const mockImageData: ImageListProps[] = [
+export const mockImageData: Partial<ImageListProps>[] = [
   {
     collections: 15,
     comments: 2,
@@ -43,12 +43,13 @@ export const mockImageData: ImageListProps[] = [
     previewWidth: 100,
     tags: "영어,학생,모에피",
     type: "photo",
-    user: "김철수",
+    // user: "김철수",
     userImageURL: "https://example.com/user-image-url2.jpg",
     user_id: 12345,
     views: 2000,
     webformatHeight: 250,
-    webformatURL: "https://example.com/webformat-url2.jpg",
+    webformatURL:
+      "https://i.namu.wiki/i/1zQlFS0_ZoofiPI4-mcmXA8zXHEcgFiAbHcnjGr7RAEyjwMHvDbrbsc8ekjZ5iWMGyzJrGl96Fv5ZIgm6YR_nA.webp",
     webformatWidth: 350,
   },
 ];

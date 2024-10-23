@@ -19,9 +19,8 @@ export const Default: Story = {
     imageList: mockImageData[0],
   },
 };
-
-// export const NoneUserInfo: Story = {
-//   args: {
-//     label: "Button",
-//   },
-// };
+export const NoneUserInfo: Story = {
+  args: {
+    imageList: mockImageData[1],
+  },
+};
