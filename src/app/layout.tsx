@@ -2,7 +2,7 @@ import "./globals.css";
 import Provider from "./Provider";
 import { Noto_Sans_KR } from "next/font/google";
 
-const noto_Sans = Noto_Sans_KR({
+export const noto_Sans = Noto_Sans_KR({
   weight: "400",
   subsets: ["latin"],
   display: "swap",
