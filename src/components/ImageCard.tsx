@@ -4,7 +4,7 @@ import type { ImageListProps } from "@/types/type";
 
 const ImageCard = ({ imageList }: { imageList: Partial<ImageListProps> }) => {
   if (!imageList.webformatURL) return;
-  console.log("이미지가 존재합니다.");
+
   return (
     <div>
       <div className='relative w-full max-w-[400px] cursor-pointer overflow-hidden rounded-xl before:absolute before:z-10 before:size-full before:opacity-40 before:transition-all before:duration-150 hover:before:bg-black'>

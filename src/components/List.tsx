@@ -1,91 +1,122 @@
 import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import Error from "./Error";
-import Empty from "./Empty";
 import ImageCard from "./ImageCard";
+import { ImageListProps } from "@/types/type";
 
 interface ListProps {
   searchKeyword: string;
 }
 
-const List = ({ searchKeyword = "" }: ListProps) => {
-  return (
-    <div className='mx-auto flex max-w-[1920px] gap-4'>
-      <ImageList searchKeyword={searchKeyword} />
-      <ImageList searchKeyword={searchKeyword} />
-      <ImageList searchKeyword={searchKeyword} />
-      <ImageList searchKeyword={searchKeyword} />
-    </div>
-  );
-};
+let pageParam = 1;
 
-export default List;
-const ImageList = ({ searchKeyword }: { searchKeyword: string }) => {
-  const { ref, inView } = useInView({ threshold: 0 });
-  const [imageData, setImageData] = useState([[], [], [], []]);
-
+const List = ({ searchKeyword }: ListProps) => {
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
-  const fetchData = async ({ pageParam = 1 }: { pageParam: number }) => {
-    const fetchURL = `https://pixabay.com/api/?key=${apiKey}&q=${searchKeyword}&image_type=photo&page=${pageParam}&per_page=16`;
+  // 각 column에 사용하기 위한 ref를 갯수대로 준비함
+  const { ref: ref1, inView: inView1 } = useInView({ threshold: 0 });
+  const { ref: ref2, inView: inView2 } = useInView({ threshold: 0 });
+  const { ref: ref3, inView: inView3 } = useInView({ threshold: 0 });
+  const { ref: ref4, inView: inView4 } = useInView({ threshold: 0 });
 
+  //각 column에 저장하기 위한 state를 갯수대로 준비함
+  const [images1, setImages1] = useState<ImageListProps[]>([]);
+  const [images2, setImages2] = useState<ImageListProps[]>([]);
+  const [images3, setImages3] = useState<ImageListProps[]>([]);
+  const [images4, setImages4] = useState<ImageListProps[]>([]);
+
+  const fetchData = async () => {
+    console.log(pageParam);
+    const fetchURL = `https://pixabay.com/api/?key=${apiKey}&q=${searchKeyword}&image_type=photo&lang=ko&per_page=${3 * pageParam}`;
     const response = await fetch(fetchURL);
     const data = await response.json();
 
     return { ...data, currentPage: pageParam };
   };
 
-  const { data, fetchNextPage, refetch, hasNextPage, isLoading, isError, error } =
-    useInfiniteQuery({
-      queryKey: ["ImageList", searchKeyword],
-      queryFn: fetchData,
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        const maxPages = Math.ceil(lastPage.totalHits / 16);
-        const nextPage = lastPage.currentPage + 1;
-        return nextPage <= maxPages ? nextPage : undefined;
-      },
-    });
+  // 추가로 3개씩 이미지를 가져오는 infinite query
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ["ImageList", searchKeyword],
+    queryFn: fetchData,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const maxPages = Math.ceil(lastPage.totalHits / 3);
+      const nextPage = lastPage.currentPage + 1;
+      return nextPage <= maxPages ? nextPage : undefined;
+    },
+    enabled: !!searchKeyword, // searchKeyword가 있을 때만 쿼리 실행
+  });
 
+  // 각 ref가 inView일 때 이미지 로드
   useEffect(() => {
-    refetch();
-  }, [searchKeyword]);
-
-  useEffect(() => {
-    if (inView && hasNextPage) {
+    if (inView1 && hasNextPage && data) {
       fetchNextPage();
+      pageParam++;
+      const newData = data.pages[data.pageParams.length - 1].hits.slice(-3);
+      setImages1((prev) => [...prev, ...newData]);
     }
-  }, [inView, hasNextPage]);
-
-  // 모든 페이지의 hits 배열을 하나로 합치기
-  const allHits = data?.pages.flatMap((page) => page.hits) || [];
-
-  console.log("allHits", allHits);
-
-  console.log(data?.pages[data?.pages.length - 1].hits);
-  // useEffect(() => {
-  //   if (!data) return;
-
-  //   const groups = [[], [], [], []];
-
-  //   for (let i = 0; i < data.length; i++) {
-  //     const groupIndex = i % 4;
-  //     groups[groupIndex].push(data[i]);
-  //   }
-
-  //   console.log(groups);
-  // }, [data]);
+  }, [inView1]);
+  useEffect(() => {
+    if (inView2 && hasNextPage && data) {
+      fetchNextPage();
+      pageParam++;
+      const newData = data.pages[data.pageParams.length - 1].hits.slice(-3);
+      setImages2((prev) => [...prev, ...newData]);
+    }
+  }, [inView1]);
+  useEffect(() => {
+    if (inView3 && hasNextPage && data) {
+      fetchNextPage();
+      pageParam++;
+      const newData = data.pages[data.pageParams.length - 1].hits.slice(-3);
+      setImages3((prev) => [...prev, ...newData]);
+    }
+  }, [inView1]);
+  useEffect(() => {
+    if (inView4 && hasNextPage && data) {
+      fetchNextPage();
+      pageParam++;
+      const newData = data.pages[data.pageParams.length - 1].hits.slice(-3);
+      setImages4((prev) => [...prev, ...newData]);
+    }
+  }, [inView1]);
 
   return (
-    <div className='w-full space-y-6'>
-      {allHits.length > 0 &&
-        allHits.map((image, index) => (
-          <div key={index}>
-            <ImageCard imageList={image} />
-          </div>
-        ))}
-      <div ref={ref} className='h-20 w-full bg-blue-400'></div>
+    <div className='mx-auto flex max-w-[1920px] gap-4'>
+      <div className='w-full space-y-6 flex flex-col'>
+        <ImageList images={images1} />
+        <div ref={ref1} className='h-20 w-full bg-blue-400'></div>
+      </div>
+      <div className='w-full space-y-6 flex flex-col'>
+        <ImageList images={images2} />
+        <div ref={ref2} className='h-20 w-full bg-blue-400'></div>
+      </div>
+      <div className='w-full space-y-6 flex flex-col'>
+        <ImageList images={images3} />
+        <div ref={ref3} className='h-20 w-full bg-blue-400'></div>
+      </div>
+      <div className='w-full space-y-6 flex flex-col'>
+        <ImageList images={images4} />
+        <div ref={ref4} className='h-20 w-full bg-blue-400'></div>
+      </div>
     </div>
+  );
+};
+
+export default List;
+
+interface ImageProps {
+  images: Partial<ImageListProps>[];
+}
+
+const ImageList = ({ images }: ImageProps) => {
+  return (
+    <>
+      {images.map((image, index) => (
+        <div key={index}>
+          <ImageCard imageList={image} />
+        </div>
+      ))}
+    </>
   );
 };

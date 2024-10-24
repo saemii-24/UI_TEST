@@ -21,21 +21,19 @@ export default function Home() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<searchProps>();
+  } = useForm<searchProps>({});
 
-  const searchKeyword = watch("searchKeyword");
+  const [localSearchKeyword, setLocalSearchKeyword] = useState<string>("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const onSubmit: SubmitHandler<searchProps> = (data) => {
     const currentKeywords = localStorage.getItem("searchKeywords");
     const savedKeywords = currentKeywords ? JSON.parse(currentKeywords) : [];
     const updatedKeywords = [...savedKeywords, data.searchKeyword];
     localStorage.setItem("searchKeywords", JSON.stringify(updatedKeywords));
-    setLocalSearchKeyword(updatedKeywords);
+    setLocalSearchKeyword(data.searchKeyword); // 업데이트된 검색 키워드 설정
     setDropdownVisible(false); // 검색 후 드롭다운 숨기기
   };
-
-  const [localSearchKeyword, setLocalSearchKeyword] = useState<string[]>([]);
-  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
     const savedKeywords = localStorage.getItem("searchKeywords");
@@ -44,17 +42,7 @@ export default function Home() {
     }
   }, []);
 
-  // 검색 키워드 삭제
-  const removeKeyword = (keywordToRemove: string) => {
-    const updatedKeywords = localSearchKeyword.filter(
-      (keyword) => keyword !== keywordToRemove,
-    );
-    setLocalSearchKeyword(updatedKeywords);
-    localStorage.setItem("searchKeywords", JSON.stringify(updatedKeywords));
-  };
-
-  //사용자의 검색 기록을 가지고, 추가 내용을 보여준다.
-  //debounce 기능을 활용해 사용자가 특정 시간동안 입력이 없는경우 api를 호출한다.
+  // 기본 이미지 URL
   const [defaultImage, setDefaultImage] = useState<string>(
     "https://cdn.pixabay.com/photo/2019/11/11/07/49/hanok-4617481_1280.jpg",
   );
@@ -85,8 +73,7 @@ export default function Home() {
           </form>
         </div>
       </div>
-
-      <List searchKeyword={searchKeyword} />
+      <List searchKeyword={localSearchKeyword} /> {/* 업데이트된 검색 키워드 전달 */}
     </div>
   );
 }
