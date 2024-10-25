@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: var(--noto);
+}
+
+.font {
+  font-family: var(--noto);
+}

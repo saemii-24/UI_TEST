@@ -1,19 +1,16 @@
 import type { Preview } from "@storybook/react";
 import "../src/app/globals.css";
-import { useEffect } from "react";
 import React from "react";
-import { Noto } from "../src/app/font";
+import { Noto } from "../src/font";
 
-const preview = {
+const preview: Preview = {
   decorators: [
-    (Story) => {
-      useEffect(() => {
-        document.body.classList.add(Noto.variable);
-      }, []);
-
-      return <Story />;
-    },
+    (Story) => (
+      <div className={Noto.variable + " font"}>
+        <Story />
+      </div>
+    ),
   ],
-} satisfies Preview;
+};
 
 export default preview;
