@@ -67,7 +67,7 @@ export default function Home() {
               className='w-full'
               name='searchKeyword'
               placeholder='원하는 이미지를 검색해보세요!'
-              register={register}
+              register={register("searchKeyword")}
             />
           </form>
         </div>
