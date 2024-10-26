@@ -30,58 +30,71 @@ const meta = {
     },
     error: {
       control: { type: "text" },
-      description: "에러 메세지가 있는 경우, 에러를 보여줍니다.",
+      description: "에러 메시지가 있는 경우 표시됩니다.",
     },
     label: {
       control: { type: "text" },
       description: "레이블",
+    },
+    icon: {
+      control: { type: "boolean" },
+      description: "검색 아이콘을 표시할지 여부",
     },
   },
 } satisfies Meta<typeof Input>;
 
 export default meta;
 
-export const HeaderInput: StoryFn = (args) => {
-  const {
-    register,
-    formState: { errors },
-  } = useForm();
+// 기본 Header Input 스토리
+export const BasicInput: StoryFn = (args) => {
+  const { register } = useForm();
+
+  return (
+    <Input {...args} register={register} name='basic' placeholder='내용을 입력하세요' />
+  );
+};
+
+// 일반 필드, 레이블과 검색 아이콘 포함
+export const WithLabelAndIcon = BasicInput.bind({});
+WithLabelAndIcon.args = {
+  name: "username",
+  label: "사용자 이름",
+  placeholder: "사용자 이름을 입력하세요",
+  icon: true,
+};
+
+// 에러 메시지와 리셋 버튼 포함
+export const WithErrorAndReset: StoryFn = (args) => {
+  const { register, reset } = useForm();
 
   return (
     <Input
       {...args}
       register={register}
-      name='basic'
-      placeholder='내용을 입력하세요'
-      type='header'
+      name='username'
+      placeholder='사용자 이름을 입력하세요'
+      label='사용자 이름'
+      error='사용자 이름이 필요합니다'
+      resetField={() => reset({ username: "" })}
+      icon={true}
     />
   );
 };
 
-// HeaderInput story
-export const WithLabel = HeaderInput.bind({});
-WithLabel.args = {
-  name: "usersname",
-  label: "Username",
-  placeholder: "Enter your username",
-  type: "general",
-};
+// 모든 기능 활성화
+export const WithAllOptions: StoryFn = (args) => {
+  const { register, reset } = useForm();
 
-// Story with a manually added error
-export const WithError = HeaderInput.bind({});
-WithError.args = {
-  name: "username",
-  label: "Username",
-  placeholder: "Enter your username",
-  type: "general",
-  error: "Username is required", // Manually adding the error
-};
-
-export const WithAll = HeaderInput.bind({});
-WithAll.args = {
-  name: "id",
-  label: "아이디",
-  placeholder: "아이디를 입력해주세요.",
-  type: "text",
-  error: "아이디는 8자에서 16자 사이여야 합니다.", // Manually adding the error
+  return (
+    <Input
+      {...args}
+      register={register}
+      name='id'
+      placeholder='아이디를 입력하세요'
+      label='아이디'
+      error='아이디는 8자에서 16자 사이여야 합니다'
+      resetField={() => reset({ id: "" })}
+      icon={true}
+    />
+  );
 };

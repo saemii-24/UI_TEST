@@ -66,7 +66,6 @@ export default function Home() {
             <Input
               className='w-full'
               name='searchKeyword'
-              type='header'
               placeholder='원하는 이미지를 검색해보세요!'
               register={register}
             />
