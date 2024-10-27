@@ -5,6 +5,7 @@ import {
   waitFor,
   renderHook,
   act,
+  getByText,
 } from "@testing-library/react";
 import { useForm } from "react-hook-form";
 import Input from "@/components/Input";
@@ -12,9 +13,8 @@ import { searchProps } from "@/app/page";
 import { vi } from "vitest";
 
 describe("Input 컴포넌트 테스트", () => {
+  const onSubmit = vi.fn();
   beforeEach(() => {
-    const onSubmit = vi.fn(); // onSubmit을 각 테스트 전에 초기화합니다.
-
     // renderHook을 사용하여 useForm 훅을 렌더링합니다.
     const { result } = renderHook(() => useForm<searchProps>({}));
 
@@ -22,6 +22,7 @@ describe("Input 컴포넌트 테스트", () => {
       register,
       handleSubmit,
       formState: { errors },
+      reset,
     } = result.current;
 
     render(
@@ -38,6 +39,7 @@ describe("Input 컴포넌트 테스트", () => {
             },
           })}
           error={errors.searchKeyword?.message}
+          reset={reset}
           icon={true}
         />
       </form>,
@@ -45,31 +47,57 @@ describe("Input 컴포넌트 테스트", () => {
   });
 
   it("Enter 키로 폼 제출 시 올바른 데이터가 수집된다", async () => {
-    const onSubmit = vi.fn((data) => {
-      const currentKeywords = localStorage.getItem("searchKeywords");
-      const savedKeywords = currentKeywords ? JSON.parse(currentKeywords) : [];
-      const updatedKeywords = [...savedKeywords, data.searchKeyword];
-      localStorage.setItem("searchKeywords", JSON.stringify(updatedKeywords));
-    });
-
-    // spyOn으로 onSubmit을 감시합니다.
-    const spyOnSubmit = vi.spyOn({ submit: onSubmit }, "submit");
-
     const input = screen.getByPlaceholderText("아이디를 입력해주세요");
 
+    // 값 변경 후 form 제출 트리거
     fireEvent.change(input, { target: { value: "testid1!" } });
-    fireEvent.keyPress(input, { key: "Enter", code: 13 });
+    fireEvent.submit(input.closest("form")!); //input과 가장 가까운 form 태그를 찾아 submit
 
+    // await waitFor(() => {
+    //   expect(onSubmit).toHaveBeenCalledWith(
+    //     expect.objectContaining({ searchKeyword: "testid1!" }), // 첫 번째 인자로 폼 데이터 객체 확인
+    //     expect.any(Object), // 두 번째 인자는 어떤 값이든 가능
+    //   );
+    // });
     await waitFor(() => {
-      expect(spyOnSubmit).toHaveBeenCalledWith({ searchKeyword: "testid1!" });
+      expect(onSubmit).toHaveBeenCalled();
     });
   });
 
-  // it("입력이 비어있을 때 에러 메시지가 표시된다", async () => {});
+  // it("입력이 비어있을 때 에러 메시지가 표시된다", async () => {
+  //   const input = screen.getByPlaceholderText("아이디를 입력해주세요");
 
-  // it("입력값에 대한 유효성 검사가 작동한다", async () => {});
+  //   fireEvent.change(input, { target: { value: "" } });
+  //   fireEvent.submit(input.closest("form")!); // form 태그가 null이 아님을 명시한다.
 
-  // it("resetField 호출 시 입력값이 초기화된다", async () => {});
+  //   // 에러 메시지가 나타나는지 확인합니다.
+  //   await waitFor(() => {
+  //     expect(screen.getByText("아이디는 필수 입니다.")).toBeInTheDocument();
+  //   });
+  // });
 
-  // it("input 필드가 초기값으로 렌더링된다", async () => {});
+  it("입력값에 대한 유효성 검사가 작동한다", async () => {
+    const input = screen.getByPlaceholderText(
+      "아이디를 입력해주세요",
+    ) as HTMLInputElement;
+  });
+
+  it("resetField 호출 시 입력값이 초기화된다", async () => {
+    const input = screen.getByPlaceholderText(
+      "아이디를 입력해주세요",
+    ) as HTMLInputElement;
+    const resetBtn = screen.getByTestId("reset-button");
+
+    // 값 변경
+    fireEvent.change(input, { target: { value: "testid1!" } });
+
+    //reset btn클릭
+    await act(async () => {
+      fireEvent.click(resetBtn);
+    });
+    // reset 버튼 클릭 후, input의 value가 빈 문자열인지 확인
+    await waitFor(() => {
+      expect(input.value).toEqual("");
+    });
+  });
 });

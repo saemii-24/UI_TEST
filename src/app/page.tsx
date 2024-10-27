@@ -20,6 +20,7 @@ export default function Home() {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<searchProps>({});
 
@@ -34,6 +35,8 @@ export default function Home() {
     setLocalSearchKeyword(data.searchKeyword); // 업데이트된 검색 키워드 설정
     setDropdownVisible(false); // 검색 후 드롭다운 숨기기
   };
+
+  console.log(handleSubmit);
 
   useEffect(() => {
     const savedKeywords = localStorage.getItem("searchKeywords");

@@ -9,7 +9,7 @@ interface InputProps<T extends FieldValues> extends HTMLAttributes<HTMLDivElemen
   placeholder?: string;
   register: ReturnType<UseFormRegister<T>>;
   error?: string;
-  resetField?: () => void;
+  reset?: () => void;
   icon?: boolean;
 }
 
@@ -19,7 +19,7 @@ const Input = <T extends FieldValues>({
   placeholder = "",
   register,
   error,
-  resetField,
+  reset,
   icon = false,
   ...rest
 }: InputProps<T>) => (
@@ -42,9 +42,10 @@ const Input = <T extends FieldValues>({
         className='flex-1 bg-transparent outline-none placeholder:font-medium placeholder:text-gray-500'
       />
 
-      {resetField && (
+      {reset && (
         <IoIosClose
-          onClick={resetField}
+          data-testid='reset-button'
+          onClick={reset}
           className='cursor-pointer text-2xl text-gray-800'
         />
       )}
