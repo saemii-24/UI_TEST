@@ -1,5 +1,5 @@
 import React, { HTMLAttributes } from "react";
-import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import { FieldValues, Path, UseFormRegister, UseFormReset } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
 import { IoIosClose } from "react-icons/io";
 
@@ -9,7 +9,7 @@ interface InputProps<T extends FieldValues> extends HTMLAttributes<HTMLDivElemen
   placeholder?: string;
   register: ReturnType<UseFormRegister<T>>;
   error?: string;
-  reset?: () => void;
+  reset?: () => void; // reset 타입을 함수로 수정
   icon?: boolean;
 }
 
@@ -39,15 +39,19 @@ const Input = <T extends FieldValues>({
         placeholder={placeholder}
         type='text'
         {...register}
+        onChange={(e) => {
+          console.log(e.target.value);
+        }}
         className='flex-1 bg-transparent outline-none placeholder:font-medium placeholder:text-gray-500'
       />
 
       {reset && (
-        <IoIosClose
-          data-testid='reset-button'
-          onClick={reset}
-          className='cursor-pointer text-2xl text-gray-800'
-        />
+        <button onClick={reset} type='button' data-testid='reset-button'>
+          <IoIosClose
+            // reset 함수 호출
+            className='cursor-pointer text-2xl text-gray-800'
+          />
+        </button>
       )}
     </div>
     {error && <p className='ml-1 text-xs text-red-500'>{error}</p>}
