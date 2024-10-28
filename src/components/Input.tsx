@@ -39,9 +39,6 @@ const Input = <T extends FieldValues>({
         placeholder={placeholder}
         type='text'
         {...register}
-        onChange={(e) => {
-          console.log(e.target.value);
-        }}
         className='flex-1 bg-transparent outline-none placeholder:font-medium placeholder:text-gray-500'
       />
 
