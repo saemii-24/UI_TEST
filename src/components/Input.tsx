@@ -43,7 +43,7 @@ const Input = <T extends FieldValues>({
       />
 
       {reset && (
-        <button onClick={reset} type='button' data-testid='reset-button'>
+        <button onClick={reset} type='button' data-testid={`reset-${name}`}>
           <IoIosClose
             // reset 함수 호출
             className='cursor-pointer text-2xl text-gray-800'

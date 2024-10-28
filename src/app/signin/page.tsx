@@ -11,7 +11,6 @@ export interface SigninProps {
 const Signin = () => {
   const onSubmit: SubmitHandler<SigninProps> = (data) => {
     console.log(data);
-    console.log("실행함");
   };
 
   return <SigninForm onSubmit={onSubmit} />;
