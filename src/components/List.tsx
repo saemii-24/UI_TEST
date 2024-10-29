@@ -27,16 +27,18 @@ const List = ({ searchKeyword }: ListProps) => {
 
   const fetchData = async () => {
     console.log(pageParam);
+    console.log("fetch를 요청했어요.");
     const fetchURL = `https://pixabay.com/api/?key=${apiKey}&q=${searchKeyword}&image_type=photo&lang=ko&per_page=${3 * pageParam}`;
     const response = await fetch(fetchURL);
     const data = await response.json();
+    console.log(pageParam + ": " + data);
 
     return { ...data, currentPage: pageParam };
   };
 
   // 추가로 3개씩 이미지를 가져오는 infinite query
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["ImageList", searchKeyword],
+    queryKey: ["ImageList", searchKeyword, pageParam],
     queryFn: fetchData,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
@@ -56,6 +58,7 @@ const List = ({ searchKeyword }: ListProps) => {
       setImages1((prev) => [...prev, ...newData]);
     }
   }, [inView1]);
+
   useEffect(() => {
     if (inView2 && hasNextPage && data) {
       fetchNextPage();
@@ -64,6 +67,7 @@ const List = ({ searchKeyword }: ListProps) => {
       setImages2((prev) => [...prev, ...newData]);
     }
   }, [inView1]);
+
   useEffect(() => {
     if (inView3 && hasNextPage && data) {
       fetchNextPage();
@@ -72,6 +76,7 @@ const List = ({ searchKeyword }: ListProps) => {
       setImages3((prev) => [...prev, ...newData]);
     }
   }, [inView1]);
+
   useEffect(() => {
     if (inView4 && hasNextPage && data) {
       fetchNextPage();
@@ -83,19 +88,19 @@ const List = ({ searchKeyword }: ListProps) => {
 
   return (
     <div className='mx-auto flex max-w-[1920px] gap-4'>
-      <div className='w-full space-y-6 flex flex-col'>
+      <div className='flex w-full flex-col space-y-6'>
         <ImageList images={images1} />
         <div ref={ref1} className='h-20 w-full bg-blue-400'></div>
       </div>
-      <div className='w-full space-y-6 flex flex-col'>
+      <div className='flex w-full flex-col space-y-6'>
         <ImageList images={images2} />
         <div ref={ref2} className='h-20 w-full bg-blue-400'></div>
       </div>
-      <div className='w-full space-y-6 flex flex-col'>
+      <div className='flex w-full flex-col space-y-6'>
         <ImageList images={images3} />
         <div ref={ref3} className='h-20 w-full bg-blue-400'></div>
       </div>
-      <div className='w-full space-y-6 flex flex-col'>
+      <div className='flex w-full flex-col space-y-6'>
         <ImageList images={images4} />
         <div ref={ref4} className='h-20 w-full bg-blue-400'></div>
       </div>

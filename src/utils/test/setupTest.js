@@ -1,7 +1,18 @@
 // setupTest.js
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
+import { handlers } from "../../mock/handlers";
 
+const server = setupServer(...handlers);
+
+// Start server before all tests
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+
+//  Close server after all tests
+afterAll(() => server.close());
+
+// Reset handlers after each test `important for test isolation`
+afterEach(() => server.resetHandlers());
 // 비동기 작업 후 모든 mock 상태를 초기화
 afterEach(() => {
   vi.clearAllMocks();
@@ -19,8 +30,8 @@ Object.defineProperty(window, "matchMedia", {
     matches: false,
     media: query,
     onchange: null,
-    addListener: vi.fn(), // deprecated
-    removeListener: vi.fn(), // deprecated
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),

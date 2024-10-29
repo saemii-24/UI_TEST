@@ -1,5 +1,5 @@
 import React, { HTMLAttributes } from "react";
-import { FieldValues, Path, UseFormRegister, UseFormReset } from "react-hook-form";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
 import { IoIosClose } from "react-icons/io";
 
@@ -9,7 +9,7 @@ interface InputProps<T extends FieldValues> extends HTMLAttributes<HTMLDivElemen
   placeholder?: string;
   register: ReturnType<UseFormRegister<T>>;
   error?: string;
-  reset?: () => void; // reset 타입을 함수로 수정
+  reset?: () => void;
   icon?: boolean;
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-interface SignupProps {
+interface SignupProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   status: "login" | "logout";
 }
 
