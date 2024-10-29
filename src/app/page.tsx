@@ -36,8 +36,6 @@ export default function Home() {
     setDropdownVisible(false); // 검색 후 드롭다운 숨기기
   };
 
-  console.log(handleSubmit);
-
   useEffect(() => {
     const savedKeywords = localStorage.getItem("searchKeywords");
     if (savedKeywords) {

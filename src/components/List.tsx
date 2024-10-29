@@ -26,12 +26,9 @@ const List = ({ searchKeyword }: ListProps) => {
   const [images4, setImages4] = useState<ImageListProps[]>([]);
 
   const fetchData = async () => {
-    console.log(pageParam);
-    console.log("fetch를 요청했어요.");
     const fetchURL = `https://pixabay.com/api/?key=${apiKey}&q=${searchKeyword}&image_type=photo&lang=ko&per_page=${3 * pageParam}`;
     const response = await fetch(fetchURL);
     const data = await response.json();
-    console.log(pageParam + ": " + data);
 
     return { ...data, currentPage: pageParam };
   };

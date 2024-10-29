@@ -1,29 +1,21 @@
 // setupTest.js
 import "@testing-library/jest-dom";
+import { setupServer } from "msw/node";
 import { vi } from "vitest";
 import { handlers } from "../../mock/handlers";
 
+// MSW 서버 설정
 const server = setupServer(...handlers);
 
-// Start server before all tests
-beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+beforeAll(() => server.listen()); // MSW 서버 시작
+afterEach(() => server.resetHandlers()); // 핸들러 리셋
+afterAll(() => server.close()); // MSW 서버 종료
 
-//  Close server after all tests
-afterAll(() => server.close());
+// 비동기 작업 및 mock 상태 초기화
+afterEach(() => vi.clearAllMocks());
+afterAll(() => vi.resetAllMocks());
 
-// Reset handlers after each test `important for test isolation`
-afterEach(() => server.resetHandlers());
-// 비동기 작업 후 모든 mock 상태를 초기화
-afterEach(() => {
-  vi.clearAllMocks();
-});
-
-// 모든 테스트 후 mock 상태를 리셋
-afterAll(() => {
-  vi.resetAllMocks();
-});
-
-// matchMedia를 mock으로 정의하여 CSS media queries 테스트를 지원
+// matchMedia를 mock으로 정의하여 CSS media queries 테스트 지원
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({

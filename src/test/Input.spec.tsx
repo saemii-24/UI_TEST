@@ -11,7 +11,7 @@ describe("SigninForm 테스트", () => {
     const password = screen.getByPlaceholderText("비밀번호를 입력해주세요");
     const submitButton = screen.getByTestId("signin");
 
-    screen.debug(); //DOM 상태 확인
+    //screen.debug(); //DOM 상태 확인
 
     // 입력값 변경
     await act(async () => {
@@ -30,7 +30,7 @@ describe("SigninForm 테스트", () => {
         password: "password1!",
       });
     });
-    screen.debug();
+    //screen.debug();
   });
 
   it("입력이 비어있을 때 에러 메시지가 표시된다", async () => {
