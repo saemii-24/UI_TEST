@@ -6,11 +6,11 @@ const ImageCard = ({ imageList }: { imageList: Partial<ImageListProps> }) => {
   if (!imageList.webformatURL) return;
 
   return (
-    <div>
+    <div data-testid='image-card'>
       <div className='relative w-full max-w-[400px] cursor-pointer overflow-hidden rounded-xl before:absolute before:z-10 before:size-full before:opacity-40 before:transition-all before:duration-150 hover:before:bg-black'>
         <Image
           src={imageList.webformatURL}
-          alt={imageList.id + "image" + imageList.user}
+          alt={imageList.id + "image-thumbnail" + imageList.user}
           width={0}
           height={0}
           sizes='100vw'
@@ -26,7 +26,7 @@ const ImageCard = ({ imageList }: { imageList: Partial<ImageListProps> }) => {
             <div className='relative size-10 overflow-hidden rounded-full'>
               <Image
                 src={imageList.userImageURL}
-                alt={imageList.id + "image" + imageList.user}
+                alt={imageList.id + "image-user" + imageList.user}
                 fill
                 style={{ objectFit: "cover" }}
                 priority
