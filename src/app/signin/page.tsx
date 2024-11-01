@@ -28,7 +28,13 @@ const Signin = () => {
     console.log(data);
   };
 
-  return <>{/* <SigninForm onSubmit={onSubmit} /> */}</>;
+  return (
+    <>
+      <div className="flex h-screen items-center justify-center bg-[url('https://cdn.pixabay.com/photo/2020/05/06/06/18/blue-5136251_1280.jpg')] bg-cover bg-center">
+        <SigninForm onSubmit={onSubmit} />
+      </div>
+    </>
+  );
 };
 
 export default Signin;

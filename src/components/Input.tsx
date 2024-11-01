@@ -2,6 +2,7 @@ import React, { HTMLAttributes } from "react";
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
 import { IoIosClose } from "react-icons/io";
+import { cva } from "class-variance-authority";
 
 interface InputProps<T extends FieldValues> extends HTMLAttributes<HTMLDivElement> {
   name: Path<T>;
@@ -11,7 +12,23 @@ interface InputProps<T extends FieldValues> extends HTMLAttributes<HTMLDivElemen
   error?: string;
   reset?: () => void;
   icon?: boolean;
+  bgColor?: "white" | "gray";
 }
+
+const inputStyles = cva(
+  "flex w-full items-center gap-3 rounded-full px-6 py-[12px]", // 공통 스타일
+  {
+    variants: {
+      bgColor: {
+        white: "bg-white",
+        gray: "bg-gray-100",
+      },
+    },
+    defaultVariants: {
+      bgColor: "white", // 기본값 설정
+    },
+  },
+);
 
 const Input = <T extends FieldValues>({
   name,
@@ -21,17 +38,16 @@ const Input = <T extends FieldValues>({
   error,
   reset,
   icon = false,
+  bgColor = "white", // 기본값 설정
   ...rest
 }: InputProps<T>) => (
-  <div className='h flex w-full flex-col gap-2' {...rest}>
+  <div className='flex w-full flex-col gap-2' {...rest}>
     {label && (
       <label htmlFor={name} className='ml-1 text-sm font-medium text-white'>
         {label}
       </label>
     )}
-    <div
-      className={`flex w-full items-center gap-3 rounded-full bg-white px-6 py-[12px]`}
-    >
+    <div className={inputStyles({ bgColor })}>
       {icon && <FiSearch className='text-gray-800' />}
 
       <input
@@ -44,10 +60,7 @@ const Input = <T extends FieldValues>({
 
       {reset && (
         <button onClick={reset} type='button' data-testid={`reset-${name}`}>
-          <IoIosClose
-            // reset 함수 호출
-            className='cursor-pointer text-2xl text-gray-800'
-          />
+          <IoIosClose className='cursor-pointer text-2xl text-gray-800' />
         </button>
       )}
     </div>
