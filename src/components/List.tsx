@@ -12,6 +12,8 @@ let pageParam = 1;
 
 const List = ({ searchKeyword }: ListProps) => {
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+  //pageParam은 모든 리스트에서 공유해야 함
+  const [thisParam, setThisParam] = useState<number>(1);
 
   // 각 column에 사용하기 위한 ref를 갯수대로 준비함
   const { ref: ref1, inView: inView1 } = useInView({ threshold: 0 });
@@ -26,7 +28,7 @@ const List = ({ searchKeyword }: ListProps) => {
   const [images4, setImages4] = useState<ImageListProps[]>([]);
 
   const fetchData = async () => {
-    const fetchURL = `https://pixabay.com/api/?key=${apiKey}&q=${searchKeyword}&image_type=photo&lang=ko&per_page=${3 * pageParam}`;
+    const fetchURL = `https://pixabay.com/api/?key=${apiKey}&q=${searchKeyword}&image_type=photo&per_page=${3 * pageParam}`;
     const response = await fetch(fetchURL);
     const data = await response.json();
 
@@ -87,15 +89,15 @@ const List = ({ searchKeyword }: ListProps) => {
     <div className='mx-auto flex max-w-[1920px] gap-4'>
       <div className='flex w-full flex-col space-y-6'>
         <ImageList images={images1} />
-        <div ref={ref1} className='h-20 w-full bg-blue-400'></div>
+        <div ref={ref1} className='h-20 w-full bg-red-400'></div>
       </div>
       <div className='flex w-full flex-col space-y-6'>
         <ImageList images={images2} />
-        <div ref={ref2} className='h-20 w-full bg-blue-400'></div>
+        <div ref={ref2} className='h-20 w-full bg-yellow-400'></div>
       </div>
       <div className='flex w-full flex-col space-y-6'>
         <ImageList images={images3} />
-        <div ref={ref3} className='h-20 w-full bg-blue-400'></div>
+        <div ref={ref3} className='h-20 w-full bg-green-400'></div>
       </div>
       <div className='flex w-full flex-col space-y-6'>
         <ImageList images={images4} />

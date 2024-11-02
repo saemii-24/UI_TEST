@@ -3,12 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
 
-import Chip from "@/components/Chip";
 import Input from "@/components/Input";
 import Title from "@/components/Title";
-import Dropdown from "@/components/Dropdown";
 import List from "@/components/List";
-import Header from "@/components/Header";
+import Link from "next/link";
 
 export interface searchProps {
   searchKeyword: string;
@@ -32,8 +30,8 @@ export default function Home() {
     const savedKeywords = currentKeywords ? JSON.parse(currentKeywords) : [];
     const updatedKeywords = [...savedKeywords, data.searchKeyword];
     localStorage.setItem("searchKeywords", JSON.stringify(updatedKeywords));
-    setLocalSearchKeyword(data.searchKeyword); // 업데이트된 검색 키워드 설정
-    setDropdownVisible(false); // 검색 후 드롭다운 숨기기
+    setLocalSearchKeyword(data.searchKeyword);
+    setDropdownVisible(false);
   };
 
   useEffect(() => {
@@ -43,37 +41,51 @@ export default function Home() {
     }
   }, []);
 
-  // 기본 이미지 URL
   const [defaultImage, setDefaultImage] = useState<string>(
-    "https://cdn.pixabay.com/photo/2019/11/11/07/49/hanok-4617481_1280.jpg",
+    "https://cdn.pixabay.com/photo/2020/05/06/06/18/blue-5136251_1280.jpg",
   );
 
   return (
     <div className='min-h-screen w-full'>
-      <div className='relative'>
-        <Header />
-        <div className='relative flex h-[320px] w-full items-center justify-center'>
-          <Image
-            src={defaultImage}
-            fill
-            alt='backgroundImage'
-            className='z-0 object-cover'
-          />
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className='container absolute bottom-10 left-1/2 -translate-x-1/2'
-          >
-            <Title className='z-20 mb-5'>배경화면을 검색해보아요!</Title>
+      <div className='relative flex h-[450px] w-full items-center justify-center'>
+        <div className='absolute inset-0 z-10 bg-gradient-to-b from-transparent to-white' />
+        <Image
+          src={defaultImage}
+          fill
+          alt='backgroundImage'
+          className='z-0 object-cover'
+        />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className='container absolute bottom-20 left-1/2 z-20 -translate-x-1/2'
+        >
+          <Title className=''>배경화면을 검색해보아요!</Title>
+          <p className='clear-start mb-10 mt-1 text-center text-gray-700'>
+            좋아하는 키워드를 검색하고 고품질의 이미지를 확인해보세요.
+            <br />
+            Pixabay API의 이미지를 검색합니다.
+            <Link
+              href='https://pixabay.com/ko/'
+              className='ml-1 hover:underline hover:underline-offset-2'
+            >
+              Pixabay가 궁금하신가요?
+            </Link>
+          </p>
+          <div className='flex w-full items-center justify-center'>
             <Input
-              className='w-full'
+              icon
+              reset={() => reset({ searchKeyword: "" })}
+              className=' w-[70%] rounded-full shadow-[0_1px_10px_0_rgba(32,33,36,0.1)]'
               name='searchKeyword'
               placeholder='원하는 이미지를 검색해보세요!'
               register={register("searchKeyword")}
             />
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
-      <List searchKeyword={localSearchKeyword} /> {/* 업데이트된 검색 키워드 전달 */}
+      <div className='container mx-auto'>
+        <List searchKeyword={"cloud"} />
+      </div>
     </div>
   );
 }
