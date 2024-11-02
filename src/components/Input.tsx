@@ -41,7 +41,7 @@ const Input = <T extends FieldValues>({
   bgColor = "white", // 기본값 설정
   ...rest
 }: InputProps<T>) => (
-  <div className='flex w-full flex-col gap-2' {...rest}>
+  <div className='flex w-full flex-col ' {...rest}>
     {label && (
       <label htmlFor={name} className='ml-1 text-sm font-medium text-white'>
         {label}
@@ -64,7 +64,7 @@ const Input = <T extends FieldValues>({
         </button>
       )}
     </div>
-    {error && <p className='ml-1 text-xs text-red-500'>{error}</p>}
+    {error && <p className='ml-1 mt-1 text-xs text-red-500'>{error}</p>}
   </div>
 );
 

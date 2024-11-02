@@ -1,7 +1,9 @@
+"use client";
 import Input from "@/components/Input";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { BsQuestionCircleFill } from "react-icons/bs";
+import SNS from "./SNS";
+
 interface SigninProps {
   id: string;
   password: string;
@@ -21,8 +23,10 @@ const SigninForm = ({ onSubmit }: SigninFormProps) => {
 
   return (
     <div className='w-full max-w-md rounded-3xl border border-white bg-white/10 p-10 backdrop-blur-lg'>
-      <h1 className='text-center text-2xl font-bold'>SEARCH</h1>
-      <div className='mt-2 text-center'>로그인하고 좋아하는 이미지를 저장해보세요</div>
+      <h1 className='text-center text-3xl font-bold text-gray-800'>Login</h1>
+      <div className='mt-2 text-center text-gray-800'>
+        로그인하고 좋아하는 이미지를 저장해보세요
+      </div>
       <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
         <Input
           name='id'
@@ -55,10 +59,6 @@ const SigninForm = ({ onSubmit }: SigninFormProps) => {
           bgColor='gray'
           className='mt-3'
         />
-        {/* <div className='mt-2 flex cursor-pointer items-center gap-1 text-xs text-gray-600 hover:underline'>
-          <BsQuestionCircleFill />
-          <p className='text-xs'>로그인에 문제가 있으신가요?</p>
-        </div> */}
         <button
           type='submit'
           role='button'
@@ -68,10 +68,15 @@ const SigninForm = ({ onSubmit }: SigninFormProps) => {
           로그인
         </button>
       </form>
-      <div className='mt-5 flex items-center justify-center'>
-        <div className='h-px flex-1  bg-gray-500'></div>
-        <span className='px-3 text-gray-500'>SNS로 로그인하기</span>
-        <div className='h-px flex-1  bg-gray-500'></div>
+      <div className='mt-6 flex items-center justify-center'>
+        <div className='h-px flex-1 bg-gray-400'></div>
+        <span className='px-3 text-gray-400'>SNS로 로그인하기</span>
+        <div className='h-px flex-1 bg-gray-400'></div>
+      </div>
+      <div className='mt-4 flex justify-center space-x-5'>
+        {["kakao", "naver", "google"].map((item) => (
+          <SNS sns={item as "kakao" | "naver" | "google"} key={item} />
+        ))}
       </div>
     </div>
   );

@@ -8,6 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      container: {
+        padding: {
+          DEFAULT: "5rem",
+        },
+      },
       fontFamily: {
         noto: ["var(--noto)"],
       },

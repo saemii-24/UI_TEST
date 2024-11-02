@@ -4,7 +4,6 @@ import Link from "next/link";
 import Signup from "./Signup";
 
 import { PiSunBold } from "react-icons/pi";
-import { useRouter } from "next/navigation";
 
 interface HeaderProps {
   user?: string;
@@ -12,9 +11,8 @@ interface HeaderProps {
 }
 
 const Header = ({ user = "사용자", status = "login" }: HeaderProps) => {
-  const route = useRouter();
   return (
-    <div className='absolute z-40 w-full text-white'>
+    <header className='absolute z-40 w-full text-white'>
       <div className='justify-betweens container  mx-auto flex w-full items-center'>
         <Link href='/' className=' flex h-[60px] items-center justify-between'>
           {/* 로고 */}
@@ -29,15 +27,12 @@ const Header = ({ user = "사용자", status = "login" }: HeaderProps) => {
           <div>
             어서오세요! <span className='font-semibold'>{user}</span>님
           </div>
-          <Signup
-            status={status}
-            onClick={() => {
-              route.push("/signin");
-            }}
-          />
+          <Link href='/signin'>
+            <Signup status={status} />
+          </Link>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
