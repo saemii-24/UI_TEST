@@ -8,12 +8,8 @@ interface ListProps {
   searchKeyword: string;
 }
 
-let pageParam = 1;
-
 const List = ({ searchKeyword }: ListProps) => {
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-  //pageParam은 모든 리스트에서 공유해야 함
-  const [thisParam, setThisParam] = useState<number>(1);
 
   // 각 column에 사용하기 위한 ref를 갯수대로 준비함
   const { ref: ref1, inView: inView1 } = useInView({ threshold: 0 });
@@ -27,61 +23,68 @@ const List = ({ searchKeyword }: ListProps) => {
   const [images3, setImages3] = useState<ImageListProps[]>([]);
   const [images4, setImages4] = useState<ImageListProps[]>([]);
 
-  const fetchData = async () => {
-    const fetchURL = `https://pixabay.com/api/?key=${apiKey}&q=${searchKeyword}&image_type=photo&per_page=${3 * pageParam}`;
-    const response = await fetch(fetchURL);
-    const data = await response.json();
+  const fetchData = async ({ pageParam = 1 }) => {
+    const perPage = 10; // 페이지당 데이터 개수 설정
+    const response = await fetch(
+      `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(searchKeyword)}&page=${pageParam}&per_page=${perPage}`,
+    );
 
-    return { ...data, currentPage: pageParam };
+    const data = await response.json();
+    return { data: data.hits, total: data.total };
   };
 
-  // 추가로 3개씩 이미지를 가져오는 infinite query
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["ImageList", searchKeyword, pageParam],
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ["ImageList", searchKeyword],
     queryFn: fetchData,
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      const maxPages = Math.ceil(lastPage.totalHits / 3);
-      const nextPage = lastPage.currentPage + 1;
-      return nextPage <= maxPages ? nextPage : undefined;
+    getNextPageParam: (lastPage, allPages) => {
+      const currentTotal = allPages.length * 20; // 현재까지 가져온 아이템 수 계산
+      return currentTotal < lastPage.total ? allPages.length + 1 : undefined;
     },
-    enabled: !!searchKeyword, // searchKeyword가 있을 때만 쿼리 실행
   });
 
   // 각 ref가 inView일 때 이미지 로드
   useEffect(() => {
     if (inView1 && hasNextPage && data) {
       fetchNextPage();
-      pageParam++;
-      const newData = data.pages[data.pageParams.length - 1].hits.slice(-3);
-      setImages1((prev) => [...prev, ...newData]);
+      const nowIndex = data.pageParams[data.pageParams.length - 1] as number;
+      const nowData = data.pages[nowIndex - 1].data;
+      // console.log(nowData);
+      const addNewData = images1.concat(nowData);
+      setImages1(addNewData);
     }
   }, [inView1]);
 
   useEffect(() => {
     if (inView2 && hasNextPage && data) {
       fetchNextPage();
-      pageParam++;
-      const newData = data.pages[data.pageParams.length - 1].hits.slice(-3);
-      setImages2((prev) => [...prev, ...newData]);
+      const nowIndex = data.pageParams[data.pageParams.length - 1] as number;
+      const nowData = data.pages[nowIndex - 1].data;
+      // console.log(nowData);
+      const addNewData = images2.concat(nowData);
+      setImages2(addNewData);
     }
-  }, [inView1]);
+  }, [inView2]);
 
   useEffect(() => {
     if (inView3 && hasNextPage && data) {
       fetchNextPage();
-      pageParam++;
-      const newData = data.pages[data.pageParams.length - 1].hits.slice(-3);
-      setImages3((prev) => [...prev, ...newData]);
+      const nowIndex = data.pageParams[data.pageParams.length - 1] as number;
+      const nowData = data.pages[nowIndex - 1].data;
+      // console.log(nowData);
+      const addNewData = images3.concat(nowData);
+      setImages3(addNewData);
     }
-  }, [inView1]);
+  }, [inView3]);
 
   useEffect(() => {
     if (inView4 && hasNextPage && data) {
       fetchNextPage();
-      pageParam++;
-      const newData = data.pages[data.pageParams.length - 1].hits.slice(-3);
-      setImages4((prev) => [...prev, ...newData]);
+      const nowIndex = data.pageParams[data.pageParams.length - 1] as number;
+      const nowData = data.pages[nowIndex - 1].data;
+      // console.log(nowData);
+      const addNewData = images4.concat(nowData);
+      setImages4(addNewData);
     }
   }, [inView1]);
 
