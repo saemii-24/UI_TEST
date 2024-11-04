@@ -24,6 +24,7 @@ export default function Home() {
 
   const [localSearchKeyword, setLocalSearchKeyword] = useState<string>("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [searchNow, setSearchNow] = useState<string>("");
 
   const onSubmit: SubmitHandler<searchProps> = (data) => {
     const currentKeywords = localStorage.getItem("searchKeywords");
@@ -32,6 +33,7 @@ export default function Home() {
     localStorage.setItem("searchKeywords", JSON.stringify(updatedKeywords));
     setLocalSearchKeyword(data.searchKeyword);
     setDropdownVisible(false);
+    setSearchNow(data.searchKeyword);
   };
 
   useEffect(() => {
@@ -84,7 +86,7 @@ export default function Home() {
         </form>
       </div>
       <div className='container mx-auto'>
-        <List searchKeyword={"cloud"} />
+        <List searchKeyword={searchNow} />
       </div>
     </div>
   );

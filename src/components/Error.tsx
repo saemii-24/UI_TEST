@@ -5,7 +5,7 @@ interface ErrorProps {
   className?: string;
 }
 
-const Error = ({ className }: ErrorProps) => {
+const ErrorComponent = ({ className }: ErrorProps) => {
   return (
     <div
       className={cn(
@@ -21,4 +21,4 @@ const Error = ({ className }: ErrorProps) => {
   );
 };
 
-export default Error;
+export default ErrorComponent;

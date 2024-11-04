@@ -4,13 +4,6 @@ import { setupServer } from "msw/node";
 import { vi } from "vitest";
 import { handlers } from "../../mock/handlers";
 
-// MSW 서버 설정
-const server = setupServer(...handlers);
-
-beforeAll(() => server.listen()); // MSW 서버 시작
-afterEach(() => server.resetHandlers()); // 핸들러 리셋
-afterAll(() => server.close()); // MSW 서버 종료
-
 // 비동기 작업 및 mock 상태 초기화
 afterEach(() => vi.clearAllMocks());
 afterAll(() => vi.resetAllMocks());

@@ -3,12 +3,21 @@ import { mockImageData } from "./mockdata";
 import ImageCard from "@/components/ImageCard";
 import { cleanup, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { setupServer } from "msw/node";
+import { handlers } from "@/mock/handlers";
 
 afterEach(() => {
   cleanup();
 });
 
-describe("ImageCard 테스트", () => {
+// MSW 서버 설정
+const server = setupServer(...handlers);
+
+beforeAll(() => server.listen()); // MSW 서버 시작
+afterEach(() => server.resetHandlers()); // 핸들러 리셋
+afterAll(() => server.close()); // MSW 서버 종료
+
+describe("Fetch가 성공했을 때의 ImageCard 테스트", () => {
   it("fetch된 데이터를 가지고 ImageCard가 적절히 렌더링 된다.", async () => {
     //msw로 mocking 된 데이터
     const response = await fetch("https://example.com/user");
