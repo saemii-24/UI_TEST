@@ -20,7 +20,11 @@ export default function Home() {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<searchProps>();
+  } = useForm<searchProps>({
+    defaultValues: {
+      searchKeyword: "",
+    },
+  });
 
   const [localSearchKeyword, setLocalSearchKeyword] = useState<string>("");
   const [dropdownVisible, setDropdownVisible] = useState(false);

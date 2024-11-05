@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import ImageCard from "./ImageCard";
 import ErrorComponent from "./Error";
 import { ImageListProps } from "@/types/type";
 import Empty from "./Empty";
+import Loading from "./Loading";
 
 interface ListProps {
   searchKeyword: string;
@@ -13,29 +14,35 @@ interface ListProps {
 const List = ({ searchKeyword }: ListProps) => {
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
-  // 각 column에 사용하기 위한 ref를 준비함
+  // 각 column에 사용하기 위한 ref 준비
   const { ref, inView } = useInView({ threshold: 0 });
-  const [images, setImages] = useState<ImageListProps[]>([]);
 
+  // API 데이터를 페칭하는 함수
   const fetchData = async ({ pageParam = 1 }) => {
     const perPage = 10;
-
-    // const response = await fetch(
-    //   `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(searchKeyword)}&page=${pageParam}&per_page=${perPage}`,
-    // );
     const response = await fetch(
-      `https://pixabay.com/api/?key=${123}&q=${encodeURIComponent(searchKeyword)}&page=${pageParam}&per_page=${perPage}`,
+      `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(
+        searchKeyword,
+      )}&page=${pageParam}&per_page=${perPage}`,
     );
-
-    if (response.status != 200) {
+    if (!response.ok) {
       throw new Error("에러가 발생했습니다.");
     }
 
     const data = await response.json();
+
     return { data: data.hits, total: data.total };
   };
 
-  const { data, fetchNextPage, hasNextPage, isError } = useInfiniteQuery({
+  // useInfiniteQuery를 사용해 무한 스크롤 처리
+  const {
+    data: images,
+    fetchNextPage,
+    hasNextPage,
+    isError,
+    error,
+    isLoading,
+  } = useInfiniteQuery({
     queryKey: ["ImageList", searchKeyword],
     queryFn: fetchData,
     initialPageParam: 1,
@@ -46,22 +53,44 @@ const List = ({ searchKeyword }: ListProps) => {
       );
       return currentTotal < lastPage?.total ? allPages.length + 1 : undefined;
     },
+    enabled: true,
+    retry: false,
   });
 
-  console.log(isError);
+  // Intersection Observer가 inView일 때 데이터 페칭
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView, hasNextPage]);
+
+  // 로딩 상태
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  // 에러 발생 시
   if (isError) {
     return <ErrorComponent />;
   }
+
+  // 데이터가 비어 있을 때
+  if (images?.pages[0]?.data.length === 0) {
+    return <Empty searchKeyword={searchKeyword} />;
+  }
+
   return (
     <div className='mx-auto max-w-[1920px] px-4'>
       <div className='columns-4 gap-4'>
-        {images.map((image, index) => (
-          <div key={index} className='mb-4 break-inside-avoid'>
-            <ImageCard imageList={image} />
-          </div>
-        ))}
-        <div ref={ref} className='h-20'></div>
+        {images?.pages.flatMap((page) =>
+          page.data.map((image: Partial<ImageListProps>, index: number) => (
+            <div key={index} className='mb-4 break-inside-avoid'>
+              <ImageCard imageList={image} />
+            </div>
+          )),
+        )}
       </div>
+      <div ref={ref} className='h-20 bg-red-400'></div>
     </div>
   );
 };
