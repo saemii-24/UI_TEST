@@ -6,6 +6,9 @@ import ErrorComponent from "./Error";
 import { ImageListProps } from "@/types/type";
 import Empty from "./Empty";
 import Loading from "./Loading";
+import { createPortal } from "react-dom";
+import Modal from "./Modal";
+import useClickImageStore from "@/store/clickImageStore";
 
 interface ListProps {
   searchKeyword: string;
@@ -16,6 +19,9 @@ const List = ({ searchKeyword }: ListProps) => {
 
   // 각 column에 사용하기 위한 ref 준비
   const { ref, inView } = useInView({ threshold: 0 });
+
+  //이미지를 클릭했는지 나타내는 store
+  const { clickImage, setClickImage } = useClickImageStore();
 
   // API 데이터를 페칭하는 함수
   const fetchData = async ({ pageParam = 1 }) => {
@@ -80,18 +86,21 @@ const List = ({ searchKeyword }: ListProps) => {
   }
 
   return (
-    <div className='mx-auto max-w-[1920px] px-4'>
-      <div className='columns-4 gap-4'>
-        {images?.pages.flatMap((page) =>
-          page.data.map((image: Partial<ImageListProps>, index: number) => (
-            <div key={index} className='mb-4 break-inside-avoid'>
-              <ImageCard imageList={image} />
-            </div>
-          )),
-        )}
+    <>
+      {createPortal(<Modal />, document.body)}
+      <div className='mx-auto max-w-[1920px] px-4'>
+        <div className='columns-1 gap-4 md:columns-2 lg:columns-3 xl:columns-4'>
+          {images?.pages.flatMap((page) =>
+            page.data.map((image: Partial<ImageListProps>, index: number) => (
+              <div key={index} className='mb-4 break-inside-avoid'>
+                <ImageCard imageList={image} />
+              </div>
+            )),
+          )}
+        </div>
+        <div ref={ref} className='h-20 bg-red-400'></div>
       </div>
-      <div ref={ref} className='h-20 bg-red-400'></div>
-    </div>
+    </>
   );
 };
 
