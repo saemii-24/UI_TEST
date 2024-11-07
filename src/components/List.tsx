@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import ImageCard from "./ImageCard";
@@ -6,9 +6,10 @@ import ErrorComponent from "./Error";
 import { ImageListProps } from "@/types/type";
 import Empty from "./Empty";
 import Loading from "./Loading";
+import useClickImageStore from "@/store/modalImageIdStore";
 import { createPortal } from "react-dom";
 import Modal from "./Modal";
-import useClickImageStore from "@/store/clickImageStore";
+import useModalImageId from "@/store/modalImageIdStore";
 
 interface ListProps {
   searchKeyword: string;
@@ -20,8 +21,7 @@ const List = ({ searchKeyword }: ListProps) => {
   // 각 column에 사용하기 위한 ref 준비
   const { ref, inView } = useInView({ threshold: 0 });
 
-  //이미지를 클릭했는지 나타내는 store
-  const { clickImage, setClickImage } = useClickImageStore();
+  const { modalImage, setModalImage } = useModalImageId();
 
   // API 데이터를 페칭하는 함수
   const fetchData = async ({ pageParam = 1 }) => {
@@ -87,13 +87,19 @@ const List = ({ searchKeyword }: ListProps) => {
 
   return (
     <>
-      {createPortal(<Modal />, document.body)}
-      <div className='mx-auto max-w-[1920px] px-4'>
+      {modalImage !== undefined && createPortal(<Modal />, document.body)}
+      <div className='mx-auto max-w-[1920px]'>
         <div className='columns-1 gap-4 md:columns-2 lg:columns-3 xl:columns-4'>
           {images?.pages.flatMap((page) =>
             page.data.map((image: Partial<ImageListProps>, index: number) => (
-              <div key={index} className='mb-4 break-inside-avoid'>
-                <ImageCard imageList={image} />
+              <div key={image.id + "-" + index} className='mb-4 break-inside-avoid'>
+                <ImageCard
+                  imageList={image}
+                  onClick={() => {
+                    setModalImage(image);
+                    console.log(modalImage);
+                  }}
+                />
               </div>
             )),
           )}
