@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useModalImageId from "@/store/modalImageIdStore";
 import Image from "next/image";
 import { VscChromeClose } from "react-icons/vsc";
@@ -8,6 +8,7 @@ import cn from "classnames";
 import Button from "./Button";
 const Modal = () => {
   const { modalImage, setModalImage } = useModalImageId();
+  const [isLike, setIsLike] = useState<boolean>(false);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -48,10 +49,19 @@ const Modal = () => {
         >
           <RiHeart3Line className='text-lg' />
         </button> */}
-        <Button rounded='full'>
+        <Button
+          rounded='full'
+          onClick={() => {
+            setIsLike(!isLike);
+          }}
+        >
           <div className='center-flex gap-1'>
-            <RiHeart3Line className='text-lg' />
-            <div></div>
+            {isLike ? (
+              <RiHeart3Fill className='text-lg' />
+            ) : (
+              <RiHeart3Line className='text-lg' />
+            )}
+            <div>{modalImage.likes}</div>
           </div>
         </Button>
       </div>
