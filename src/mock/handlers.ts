@@ -27,7 +27,7 @@ const errorHandler = http.get("https://pixabay.com/api", ({ request }) => {
   const query = url.searchParams.get("q");
 
   // key나 query가 특정 값일 경우 에러를 반환
-  if (apiKey === "undefined" && query === "test-error") {
+  if (query === "error") {
     return new HttpResponse(null, {
       status: 404,
       statusText: "에러",
@@ -35,4 +35,15 @@ const errorHandler = http.get("https://pixabay.com/api", ({ request }) => {
   }
 });
 
-export const handlers = [successHandler, errorHandler];
+const emptyHandler = http.get("https://pixabay.com/api", ({ request }) => {
+  const url = new URL(request.url);
+  const apiKey = url.searchParams.get("key");
+  const query = url.searchParams.get("q");
+
+  // key나 query가 특정 값일 경우 에러를 반환
+  if (query === "empty") {
+    return HttpResponse.json({ totalHits: 0, hits: Array(0), total: 0 });
+  }
+});
+
+export const handlers = [successHandler, errorHandler, emptyHandler];

@@ -20,7 +20,11 @@ export default function Home() {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<searchProps>();
+  } = useForm<searchProps>({
+    defaultValues: {
+      searchKeyword: "",
+    },
+  });
 
   const [localSearchKeyword, setLocalSearchKeyword] = useState<string>("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -56,6 +60,7 @@ export default function Home() {
           fill
           alt='backgroundImage'
           className='z-0 object-cover'
+          priority
         />
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -77,7 +82,7 @@ export default function Home() {
             <Input
               icon
               reset={() => reset({ searchKeyword: "" })}
-              className=' w-[70%] rounded-full shadow-[0_1px_10px_0_rgba(32,33,36,0.1)]'
+              className=' w-full rounded-full shadow-[0_1px_10px_0_rgba(32,33,36,0.1)] md:w-[70%]'
               name='searchKeyword'
               placeholder='원하는 이미지를 검색해보세요!'
               register={register("searchKeyword")}

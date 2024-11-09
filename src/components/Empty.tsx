@@ -16,7 +16,7 @@ const Empty = ({ className, searchKeyword }: EmptyProps) => {
     >
       <TbMoodEmpty className='text-5xl ' />
       <div className='font-medium text-gray-400'>
-        &ldquo;{searchKeyword}&rdquo;에 대한 검색 결과가 없습니다.
+        {searchKeyword}에 대한 검색 결과가 없습니다.
       </div>
     </div>
   );
