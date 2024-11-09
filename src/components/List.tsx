@@ -47,7 +47,7 @@ const List = ({ searchKeyword }: ListProps) => {
       return currentTotal < lastPage?.total ? allPages.length + 1 : undefined;
     },
   });
-
+  //{ cancelRefetch: false }
   console.log(isError);
   if (isError) {
     return <ErrorComponent />;
