@@ -66,9 +66,9 @@ const Modal = () => {
   const copyUrl = async (url: string) => {
     try {
       await navigator.clipboard.writeText(url);
-      alert("이미지의 url이  클립보드에 복사되었습니다!");
-    } catch (error) {
-      alert("복사에 실패했습니다. 다시 시도해주세요.");
+      alert("이미지의 url이 클립보드에 복사되었습니다!");
+    } catch {
+      alert("url 복사에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
@@ -85,7 +85,7 @@ const Modal = () => {
     >
       <div
         ref={modalRef}
-        className='relative left-1/2 top-1/2 h-[70vh] w-[90%] max-w-[500px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-lg'
+        className='relative left-1/2 top-1/2 h-[70vh] max-h-[560px] w-[90%] max-w-[500px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-lg'
       >
         <div className='absolute right-4 top-4 z-[10000] cursor-pointer rounded-full bg-white  p-2 text-2xl font-bold text-black'>
           <VscChromeClose
@@ -106,67 +106,66 @@ const Modal = () => {
         </div>
         <div className='flex size-full h-[45%] flex-col px-5 pb-5 pt-4'>
           <div className='flex items-center justify-between gap-3'>
-            {modalImage.user &&
-              modalImage.user.length > 0 &&
-              modalImage.userImageURL &&
-              modalImage.userImageURL.length > 0 && (
-                <div className='mt-2 flex flex-1 items-center gap-2'>
-                  <div className='relative size-16 overflow-hidden rounded-full'>
-                    <Image
-                      src={modalImage.userImageURL}
-                      alt={`${modalImage.id} image-user ${modalImage.user}`}
-                      width='80'
-                      height='80'
-                      style={{ objectFit: "cover" }}
-                      priority
-                    />
-                  </div>
-                  <div className='flex-1 '>
-                    <div className='flex items-center justify-between'>
-                      {/* 사진 촬영자 이름 */}
-                      <div className='text-xl font-semibold'>
-                        Photo by. {modalImage.user}
-                      </div>
-                      <div className='flex items-center gap-2'>
-                        {/* 좋아요 */}
-                        <div
-                          onClick={() => {
-                            setIsLike(!isLike);
-                            if (modalImage.likes) {
-                              modalImage.likes = isLike
-                                ? modalImage.likes - 1
-                                : modalImage.likes + 1;
-                              setModalImage(modalImage);
-                            }
-                          }}
-                          className='mt-2 flex cursor-pointer items-center gap-1'
-                        >
-                          {isLike ? (
-                            <RiHeart3Fill className='text-xl text-red-500' />
-                          ) : (
-                            <RiHeart3Line className='text-xl text-red-500' />
-                          )}
-                          {/* <div>{modalImage.likes}</div> */}
-                        </div>
-                        <div
-                          onClick={() => {
-                            copyUrl(modalImage?.largeImageURL || "");
-                          }}
-                          className='cursor-pointer'
-                        >
-                          <IoShareSocialOutline className='translate-y-1 text-xl' />
-                        </div>
-                      </div>
+            <div className='mt-2 flex flex-1 items-center gap-2'>
+              {modalImage.userImageURL && (
+                <div className='relative size-16 overflow-hidden rounded-full'>
+                  <Image
+                    src={modalImage.userImageURL}
+                    alt={`${modalImage.id} image-user ${modalImage.user}`}
+                    width='80'
+                    height='80'
+                    style={{ objectFit: "cover" }}
+                    priority
+                  />
+                </div>
+              )}
+              <div className='flex-1 '>
+                <div className='flex items-center justify-between'>
+                  {/* 사진 촬영자 이름 */}
+                  {modalImage.user && (
+                    <div className='text-xl font-semibold'>
+                      Photo by. {modalImage.user}
                     </div>
-                    {/* 이미지 태그 */}
-                    <div className=' mt-1 flex gap-2 text-sm text-gray-600'>
-                      {modalImage.tags?.split(", ").map((item, index) => {
-                        return <div key={index}>#{item.replace(/\s+/g, "_")}</div>;
-                      })}
+                  )}
+                  <div className='flex items-center gap-2'>
+                    {/* 좋아요 */}
+                    <div
+                      onClick={() => {
+                        setIsLike(!isLike);
+                        if (modalImage.likes) {
+                          modalImage.likes = isLike
+                            ? modalImage.likes - 1
+                            : modalImage.likes + 1;
+                          setModalImage(modalImage);
+                        }
+                      }}
+                      className='mt-2 flex cursor-pointer items-center gap-1'
+                    >
+                      {isLike ? (
+                        <RiHeart3Fill className='text-xl text-red-500' />
+                      ) : (
+                        <RiHeart3Line className='text-xl text-red-500' />
+                      )}
+                      {/* <div>{modalImage.likes}</div> */}
+                    </div>
+                    <div
+                      onClick={() => {
+                        copyUrl(modalImage?.largeImageURL || "");
+                      }}
+                      className='cursor-pointer'
+                    >
+                      <IoShareSocialOutline className='translate-y-1 text-xl' />
                     </div>
                   </div>
                 </div>
-              )}
+                {/* 이미지 태그 */}
+                <div className=' mt-1 flex gap-2 text-sm text-gray-600'>
+                  {modalImage.tags?.split(", ").map((item, index) => {
+                    return <div key={index}>#{item.replace(/\s+/g, "_")}</div>;
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
 
           <Link className='mt-auto' href={modalImage.largeImageURL || ""} target='_blank'>
