@@ -1,0 +1,99 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Modal 테스트 > 사용자가 클릭 후 모달이 DOM에 추가되는지 확인한다. 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="image-card"
+  >
+    <div
+      class="relative w-full max-w-screen-md cursor-pointer overflow-hidden rounded-xl before:absolute before:z-10 before:size-full before:opacity-40 before:transition-all before:duration-150 hover:before:bg-black"
+    >
+      <img
+        alt="123456 image-thumbnail 신짱구"
+        class="bg-gray-200"
+        data-nimg="1"
+        decoding="async"
+        fetchpriority="high"
+        height="0"
+        src="/_next/image?url=https%3A%2F%2Fi.namu.wiki%2Fi%2FXlemnq7yDxo7UySM67TdWk7bLD6YlH1DVCcEsDsDUBzA1YObHzAkw2HNhT68TsBWNpN7W80B8JhLxY_MFWd0Yw.webp&w=16&q=75"
+        srcset="/_next/image?url=https%3A%2F%2Fi.namu.wiki%2Fi%2FXlemnq7yDxo7UySM67TdWk7bLD6YlH1DVCcEsDsDUBzA1YObHzAkw2HNhT68TsBWNpN7W80B8JhLxY_MFWd0Yw.webp&w=16&q=75 1x"
+        style="color: transparent; width: 0px; height: 0px;"
+        width="0"
+      />
+    </div>
+    <div
+      class="mt-2 flex items-center gap-2"
+    >
+      <div
+        class="relative size-10 overflow-hidden rounded-full"
+      >
+        <img
+          alt="123456 image-user 신짱구"
+          data-nimg="1"
+          decoding="async"
+          fetchpriority="high"
+          height="40"
+          src="/_next/image?url=https%3A%2F%2Fi.namu.wiki%2Fi%2Fski_BSi3UIzyfgirmri8gUnoBpU08nLxs-af7DxS5qKf-QeP_rDP_6eh05bqtWueF6ifI3B3jadmYsbeEVm5ThTrokCDiByt8pIrv-TC--HuVEwU72DjHEOarB5LLPDKacLuM7xEvkMMH1evfsjEUw.webp&w=96&q=75"
+          srcset="/_next/image?url=https%3A%2F%2Fi.namu.wiki%2Fi%2Fski_BSi3UIzyfgirmri8gUnoBpU08nLxs-af7DxS5qKf-QeP_rDP_6eh05bqtWueF6ifI3B3jadmYsbeEVm5ThTrokCDiByt8pIrv-TC--HuVEwU72DjHEOarB5LLPDKacLuM7xEvkMMH1evfsjEUw.webp&w=48&q=75 1x, /_next/image?url=https%3A%2F%2Fi.namu.wiki%2Fi%2Fski_BSi3UIzyfgirmri8gUnoBpU08nLxs-af7DxS5qKf-QeP_rDP_6eh05bqtWueF6ifI3B3jadmYsbeEVm5ThTrokCDiByt8pIrv-TC--HuVEwU72DjHEOarB5LLPDKacLuM7xEvkMMH1evfsjEUw.webp&w=96&q=75 2x"
+          style="color: transparent; object-fit: cover;"
+          width="40"
+        />
+      </div>
+      <div
+        class="text-base font-semibold"
+      >
+        Photo by. 신짱구
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Modal 테스트 > 사용자가 클릭 후 모달이 DOM에 추가되는지 확인한다. 2`] = `
+<DocumentFragment>
+  <div
+    data-testid="image-card"
+  >
+    <div
+      class="relative w-full max-w-screen-md cursor-pointer overflow-hidden rounded-xl before:absolute before:z-10 before:size-full before:opacity-40 before:transition-all before:duration-150 hover:before:bg-black"
+    >
+      <img
+        alt="123456 image-thumbnail 신짱구"
+        class="bg-gray-200"
+        data-nimg="1"
+        decoding="async"
+        fetchpriority="high"
+        height="0"
+        src="/_next/image?url=https%3A%2F%2Fi.namu.wiki%2Fi%2FXlemnq7yDxo7UySM67TdWk7bLD6YlH1DVCcEsDsDUBzA1YObHzAkw2HNhT68TsBWNpN7W80B8JhLxY_MFWd0Yw.webp&w=16&q=75"
+        srcset="/_next/image?url=https%3A%2F%2Fi.namu.wiki%2Fi%2FXlemnq7yDxo7UySM67TdWk7bLD6YlH1DVCcEsDsDUBzA1YObHzAkw2HNhT68TsBWNpN7W80B8JhLxY_MFWd0Yw.webp&w=16&q=75 1x"
+        style="color: transparent; width: 0px; height: 0px;"
+        width="0"
+      />
+    </div>
+    <div
+      class="mt-2 flex items-center gap-2"
+    >
+      <div
+        class="relative size-10 overflow-hidden rounded-full"
+      >
+        <img
+          alt="123456 image-user 신짱구"
+          data-nimg="1"
+          decoding="async"
+          fetchpriority="high"
+          height="40"
+          src="/_next/image?url=https%3A%2F%2Fi.namu.wiki%2Fi%2Fski_BSi3UIzyfgirmri8gUnoBpU08nLxs-af7DxS5qKf-QeP_rDP_6eh05bqtWueF6ifI3B3jadmYsbeEVm5ThTrokCDiByt8pIrv-TC--HuVEwU72DjHEOarB5LLPDKacLuM7xEvkMMH1evfsjEUw.webp&w=96&q=75"
+          srcset="/_next/image?url=https%3A%2F%2Fi.namu.wiki%2Fi%2Fski_BSi3UIzyfgirmri8gUnoBpU08nLxs-af7DxS5qKf-QeP_rDP_6eh05bqtWueF6ifI3B3jadmYsbeEVm5ThTrokCDiByt8pIrv-TC--HuVEwU72DjHEOarB5LLPDKacLuM7xEvkMMH1evfsjEUw.webp&w=48&q=75 1x, /_next/image?url=https%3A%2F%2Fi.namu.wiki%2Fi%2Fski_BSi3UIzyfgirmri8gUnoBpU08nLxs-af7DxS5qKf-QeP_rDP_6eh05bqtWueF6ifI3B3jadmYsbeEVm5ThTrokCDiByt8pIrv-TC--HuVEwU72DjHEOarB5LLPDKacLuM7xEvkMMH1evfsjEUw.webp&w=96&q=75 2x"
+          style="color: transparent; object-fit: cover;"
+          width="40"
+        />
+      </div>
+      <div
+        class="text-base font-semibold"
+      >
+        Photo by. 신짱구
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

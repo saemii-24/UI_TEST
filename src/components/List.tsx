@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
+import { InView, useInView } from "react-intersection-observer";
 import ImageCard from "./ImageCard";
 import ErrorComponent from "./Error";
 import { ImageListProps } from "@/types/type";
@@ -64,11 +64,19 @@ const List = ({ searchKeyword }: ListProps) => {
   });
 
   // Intersection Observer가 inView일 때 데이터 페칭
+  // useEffect(() => {
+  //   if (inView && hasNextPage) {
+  //     fetchNextPage();
+  //     console.log(inView, hasNextPage);
+  //   }
+  // }, [fetchNextPage, inView, hasNextPage]);
+
   useEffect(() => {
-    if (inView && hasNextPage) {
+    if (inView) {
       fetchNextPage();
+      console.log(inView);
     }
-  }, [fetchNextPage, inView, hasNextPage]);
+  }, [fetchNextPage, inView]);
 
   // 로딩 상태
   if (isLoading) {

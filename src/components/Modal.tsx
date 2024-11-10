@@ -80,6 +80,7 @@ const Modal = () => {
 
   return (
     <div
+      data-testid='image-modal'
       ref={backgroundRef}
       className='fixed inset-0 z-[9999] h-screen w-full bg-black/30'
     >
