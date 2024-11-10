@@ -73,7 +73,7 @@ const Modal = () => {
     >
       <div
         ref={modalRef}
-        className='relative left-1/2 top-1/2 h-[80vh] w-[90%] max-w-[500px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-lg'
+        className='relative left-1/2 top-1/2 h-[70vh] w-[90%] max-w-[500px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-lg'
       >
         <div className='absolute right-4 top-4 z-[10000] cursor-pointer rounded-full bg-white  p-2 text-2xl font-bold text-black'>
           <VscChromeClose
@@ -81,7 +81,7 @@ const Modal = () => {
             onClick={() => setModalImage(undefined)}
           />
         </div>
-        <div className={cn("relative w-full h-1/2 flex-col")}>
+        <div className={cn("relative w-full h-[55%] flex-col")}>
           <Image
             src={modalImage.webformatURL as string}
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 500px'
@@ -92,21 +92,105 @@ const Modal = () => {
             className=' bg-gray-200'
           />
         </div>
-        <Button
-          rounded='full'
-          onClick={() => {
-            setIsLike(!isLike);
-          }}
-        >
-          <div className='center-flex gap-1'>
-            {isLike ? (
-              <RiHeart3Fill className='text-lg' />
-            ) : (
-              <RiHeart3Line className='text-lg' />
-            )}
-            <div>{modalImage.likes}</div>
+        <div className='flex size-full h-[45%] flex-col  px-5 pb-5 pt-4'>
+          <div className='flex items-center justify-between gap-3'>
+            {modalImage.user &&
+              modalImage.user.length > 0 &&
+              modalImage.userImageURL &&
+              modalImage.userImageURL.length > 0 && (
+                <div className='mt-2 flex flex-1 items-center gap-2'>
+                  <div className='relative size-16 overflow-hidden rounded-full'>
+                    <Image
+                      src={modalImage.userImageURL}
+                      alt={`${modalImage.id} image-user ${modalImage.user}`}
+                      width='80'
+                      height='80'
+                      style={{ objectFit: "cover" }}
+                      priority
+                    />
+                  </div>
+                  <div className='flex-col'>
+                    {/* 사진 촬영자 이름 */}
+                    <div className='flex items-center justify-between'>
+                      <div className='text-xl font-semibold'>
+                        Photo by. {modalImage.user}
+                      </div>
+                      <div
+                        onClick={() => {
+                          setIsLike(!isLike);
+                          if (modalImage.likes) {
+                            modalImage.likes = isLike
+                              ? modalImage.likes - 1
+                              : modalImage.likes + 1;
+                            setModalImage(modalImage);
+                          }
+                        }}
+                        className='mt-2 flex cursor-pointer items-center gap-1'
+                      >
+                        {isLike ? (
+                          <RiHeart3Fill className='text-lg text-red-500' />
+                        ) : (
+                          <RiHeart3Line className='text-lg text-red-500' />
+                        )}
+                        {/* <div>{modalImage.likes}</div> */}
+                      </div>
+                    </div>
+                    {/* 이미지 태그 */}
+                    <div className=' mt-1 flex gap-2 text-sm text-gray-600'>
+                      {modalImage.tags?.split(", ").map((item, index) => {
+                        return <div key={index}>#{item.replace(/\s+/g, "_")}</div>;
+                      })}
+                    </div>
+                    {/* 이미지 좋아요 버튼 */}
+                    {/* <div
+                      onClick={() => {
+                        setIsLike(!isLike);
+                        if (modalImage.likes) {
+                          modalImage.likes = isLike
+                            ? modalImage.likes - 1
+                            : modalImage.likes + 1;
+                          setModalImage(modalImage);
+                        }
+                      }}
+                      className='mt-2 flex cursor-pointer items-center gap-1'
+                    >
+                      {isLike ? (
+                        <RiHeart3Fill className='text-lg text-red-500' />
+                      ) : (
+                        <RiHeart3Line className='text-lg text-red-500' />
+                      )}
+                      <div>{modalImage.likes}</div>
+                    </div> */}
+                  </div>
+                </div>
+              )}
           </div>
-        </Button>
+
+          {/* <Button
+            rounded='full'
+            width='full'
+            className=''
+            onClick={() => {
+              setIsLike(!isLike);
+              if (modalImage.likes) {
+                modalImage.likes = isLike ? modalImage.likes - 1 : modalImage.likes + 1;
+                setModalImage(modalImage);
+              }
+            }}
+          >
+            <div className='mt-2 flex cursor-pointer items-center gap-1'>
+              {isLike ? (
+                <RiHeart3Fill className='text-lg text-red-500' />
+              ) : (
+                <RiHeart3Line className='text-lg text-red-500' />
+              )}
+              <div>{modalImage.likes}</div>
+            </div>
+          </Button> */}
+          <Button rounded='full' width='full' color='blue' className='mt-auto'>
+            다운로드
+          </Button>
+        </div>
       </div>
     </div>
   );
