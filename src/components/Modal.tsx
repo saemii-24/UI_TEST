@@ -4,8 +4,10 @@ import useModalImageId from "@/store/modalImageIdStore";
 import Image from "next/image";
 import { VscChromeClose } from "react-icons/vsc";
 import { RiHeart3Line, RiHeart3Fill } from "react-icons/ri";
+import { IoShareSocialOutline } from "react-icons/io5";
 import cn from "classnames";
 import Button from "./Button";
+import Link from "next/link";
 
 const Modal = () => {
   const { modalImage, setModalImage } = useModalImageId();
@@ -60,6 +62,16 @@ const Modal = () => {
     };
   }, [modalImage]);
 
+  //url 복사하기
+  const copyUrl = async (url: string) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      alert("이미지의 url이  클립보드에 복사되었습니다!");
+    } catch (error) {
+      alert("복사에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
   // 모달이 열리지 않아야 하는 상황
   if (!modalImage || !modalImage.webformatURL) {
     setModalImage(undefined);
@@ -92,7 +104,7 @@ const Modal = () => {
             className=' bg-gray-200'
           />
         </div>
-        <div className='flex size-full h-[45%] flex-col  px-5 pb-5 pt-4'>
+        <div className='flex size-full h-[45%] flex-col px-5 pb-5 pt-4'>
           <div className='flex items-center justify-between gap-3'>
             {modalImage.user &&
               modalImage.user.length > 0 &&
@@ -109,30 +121,41 @@ const Modal = () => {
                       priority
                     />
                   </div>
-                  <div className='flex-col'>
-                    {/* 사진 촬영자 이름 */}
+                  <div className='flex-1 '>
                     <div className='flex items-center justify-between'>
+                      {/* 사진 촬영자 이름 */}
                       <div className='text-xl font-semibold'>
                         Photo by. {modalImage.user}
                       </div>
-                      <div
-                        onClick={() => {
-                          setIsLike(!isLike);
-                          if (modalImage.likes) {
-                            modalImage.likes = isLike
-                              ? modalImage.likes - 1
-                              : modalImage.likes + 1;
-                            setModalImage(modalImage);
-                          }
-                        }}
-                        className='mt-2 flex cursor-pointer items-center gap-1'
-                      >
-                        {isLike ? (
-                          <RiHeart3Fill className='text-lg text-red-500' />
-                        ) : (
-                          <RiHeart3Line className='text-lg text-red-500' />
-                        )}
-                        {/* <div>{modalImage.likes}</div> */}
+                      <div className='flex items-center gap-2'>
+                        {/* 좋아요 */}
+                        <div
+                          onClick={() => {
+                            setIsLike(!isLike);
+                            if (modalImage.likes) {
+                              modalImage.likes = isLike
+                                ? modalImage.likes - 1
+                                : modalImage.likes + 1;
+                              setModalImage(modalImage);
+                            }
+                          }}
+                          className='mt-2 flex cursor-pointer items-center gap-1'
+                        >
+                          {isLike ? (
+                            <RiHeart3Fill className='text-xl text-red-500' />
+                          ) : (
+                            <RiHeart3Line className='text-xl text-red-500' />
+                          )}
+                          {/* <div>{modalImage.likes}</div> */}
+                        </div>
+                        <div
+                          onClick={() => {
+                            copyUrl(modalImage?.largeImageURL || "");
+                          }}
+                          className='cursor-pointer'
+                        >
+                          <IoShareSocialOutline className='translate-y-1 text-xl' />
+                        </div>
                       </div>
                     </div>
                     {/* 이미지 태그 */}
@@ -141,55 +164,16 @@ const Modal = () => {
                         return <div key={index}>#{item.replace(/\s+/g, "_")}</div>;
                       })}
                     </div>
-                    {/* 이미지 좋아요 버튼 */}
-                    {/* <div
-                      onClick={() => {
-                        setIsLike(!isLike);
-                        if (modalImage.likes) {
-                          modalImage.likes = isLike
-                            ? modalImage.likes - 1
-                            : modalImage.likes + 1;
-                          setModalImage(modalImage);
-                        }
-                      }}
-                      className='mt-2 flex cursor-pointer items-center gap-1'
-                    >
-                      {isLike ? (
-                        <RiHeart3Fill className='text-lg text-red-500' />
-                      ) : (
-                        <RiHeart3Line className='text-lg text-red-500' />
-                      )}
-                      <div>{modalImage.likes}</div>
-                    </div> */}
                   </div>
                 </div>
               )}
           </div>
 
-          {/* <Button
-            rounded='full'
-            width='full'
-            className=''
-            onClick={() => {
-              setIsLike(!isLike);
-              if (modalImage.likes) {
-                modalImage.likes = isLike ? modalImage.likes - 1 : modalImage.likes + 1;
-                setModalImage(modalImage);
-              }
-            }}
-          >
-            <div className='mt-2 flex cursor-pointer items-center gap-1'>
-              {isLike ? (
-                <RiHeart3Fill className='text-lg text-red-500' />
-              ) : (
-                <RiHeart3Line className='text-lg text-red-500' />
-              )}
-              <div>{modalImage.likes}</div>
-            </div>
-          </Button> */}
-          <Button rounded='full' width='full' color='blue' className='mt-auto'>
-            다운로드
-          </Button>
+          <Link className='mt-auto' href={modalImage.largeImageURL || ""} target='_blank'>
+            <Button rounded='full' width='full' color='blue'>
+              다운로드
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
