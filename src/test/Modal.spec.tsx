@@ -1,33 +1,64 @@
-import ImageCard from "@/components/ImageCard";
-import { cleanup, fireEvent, getByTestId, render, waitFor } from "@testing-library/react";
-import { mockImageData } from "./mockdata";
-import userEvent from "@testing-library/user-event";
+import { fireEvent, render, waitFor, screen } from "@testing-library/react";
+import { vi } from "vitest";
 import Modal from "@/components/Modal";
+import useModalImageId from "@/store/modalImageIdStore";
+import { mockImageData } from "./mockdata";
 
-describe("Modal 테스트", () => {
-  it("사용자가 클릭 후 모달이 DOM에 추가되는지 확인한다.", async () => {
-    // ImageCard 컴포넌트를 렌더링하고, 모달은 아직 렌더링되지 않음
-    const { queryByTestId, getByTestId } = render(
-      <ImageCard imageList={mockImageData[0]} />,
-    );
+// store의 상태와 메서드를 모킹함
+vi.mock("@/store/modalImageIdStore", () => ({
+  default: () => ({
+    modalImage: mockImageData[0],
+    setModalImage: vi.fn(),
+  }),
+}));
 
-    // 모달이 DOM에 없다면, 모달은 ImageCard 내부에서 조건부로 렌더링되므로 처음엔 존재하지 않음
-    const modal = queryByTestId("image-modal"); //query를 사용할 경우 찾지 못하더라도 에러를 반환하지 않음
-    expect(modal).not.toBeInTheDocument();
+describe("Modal 컴포넌트 테스트", () => {
+  it("사용자가 모달 Close 버튼을 클릭할 때 모달이 닫힌다.", () => {
+    const { getByTestId } = render(<Modal />);
+    const closeButton = getByTestId("close-button");
+    fireEvent.click(closeButton);
+    expect(useModalImageId().setModalImage).toHaveBeenCalledWith(undefined);
+  });
 
-    // 이미지 카드 클릭 이벤트 발생
-    const imageCard = getByTestId("image-card");
-    fireEvent.click(imageCard); // 클릭 이벤트 트리거
+  it("사용자가 ESC키를 눌렀을 때 모달이 닫힌다.", () => {
+    render(<Modal />);
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(useModalImageId().setModalImage).toHaveBeenCalledWith(undefined);
+  });
 
-    // 클릭 후 모달이 DOM에 추가되었는지 확인
+  it("모달 외부를 클릭 시 모달이 닫히는지 확인한다", () => {
+    const { getByTestId } = render(<Modal />);
+    const background = getByTestId("image-modal");
+    fireEvent.mouseDown(background);
+    expect(useModalImageId().setModalImage).toHaveBeenCalledWith(undefined);
+  });
+
+  it("사용자가 좋아요를 눌렀을 때 fill 하트 아이콘으로 변경된다.", async () => {
+    render(<Modal />);
+    const likeButton = screen.getByRole("button", { name: /like/i });
+    fireEvent.click(likeButton);
     await waitFor(() => {
-      expect(screen.queryByTestId<HTMLDivElement>("image-modal")).toBeInTheDocument();
+      expect(screen.getByTestId("like-icon")).toHaveClass("text-red-500");
     });
   });
-  it("사용자가 모달 Close 버튼을 클릭할 때 모달이 닫힌다.", () => {});
-  it("사용자가 ESC키를 눌렀을 때 모달이 닫힌다.", () => {});
-  it("모달 외부를 클릭하면 모달이 닫힌다.", () => {});
-  it("사용자가 좋아요를 눌렀을 때 색상이 적절히 변경된다.", () => {});
-  it("사용자가 다운로드 버튼을 클릭하면 해당 url의 새로운 창이 열린다.", () => {});
-  it("사용자가 공유 버튼을 클릭하면 해당 url이 복사된다.", () => {});
+
+  it("사용자가 다운로드 버튼을 클릭하면 해당 url의 새로운 창이 열린다.", () => {
+    global.open = vi.fn();
+    render(<Modal />);
+    const downloadButton = screen.getByRole("button", { name: /다운로드/i });
+    fireEvent.click(downloadButton);
+    expect(global.open).toHaveBeenCalledWith(mockImageData[0].largeImageURL, "_blank");
+  });
+
+  it("사용자가 공유 버튼을 클릭하면 해당 url이 복사된다.", async () => {
+    const mockClipboard = vi.fn();
+    vi.spyOn(navigator.clipboard, "writeText").mockImplementation(mockClipboard);
+
+    render(<Modal />);
+    const shareButton = screen.getByRole("button", { name: /share/i });
+    fireEvent.click(shareButton);
+    await waitFor(() => {
+      expect(mockClipboard).toHaveBeenCalledWith(mockImageData[0].largeImageURL);
+    });
+  });
 });

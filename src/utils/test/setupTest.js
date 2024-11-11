@@ -4,6 +4,7 @@ import { setupServer } from "msw/node";
 import { vi } from "vitest";
 import { handlers } from "../../mock/handlers";
 
+vi.mock("zustand");
 // MSW 서버 설정
 const server = setupServer(...handlers);
 
