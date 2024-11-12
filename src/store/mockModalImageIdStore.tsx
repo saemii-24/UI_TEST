@@ -1,3 +1,4 @@
+import { mockImageData } from "@/test/mockdata";
 import { ImageListProps } from "@/types/type";
 import { create } from "zustand";
 
@@ -7,9 +8,16 @@ export interface ModalImageId {
 }
 
 const useModalImageId = create<ModalImageId>((set) => ({
-  modalImage: undefined,
+  modalImage: mockImageData[0],
   setModalImage: (value: Partial<ImageListProps> | undefined) =>
     set({ modalImage: value }),
 }));
 
-export default useModalImageId;
+// store 초기화 함수
+const resetModalImageStore = () => {
+  useModalImageId.setState({
+    modalImage: undefined, // 초기 상태로 설정
+  });
+};
+
+export { useModalImageId, resetModalImageStore };
