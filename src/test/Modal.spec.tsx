@@ -1,41 +1,40 @@
 import { fireEvent, render, waitFor, screen, act } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { mockImageData } from "./mockdata";
 import { create } from "zustand";
 import { ImageListProps } from "@/types/type";
-import { ModalImageId, useModalImageId } from "@/store/mockModalImageIdStore";
+import {
+  ModalImageId,
+  resetModalImageStore,
+  mockModalImageIdStore,
+} from "@/store/mockModalImageIdStore";
 import ImageCard from "@/components/ImageCard";
-
-// Zustand 스토어 초기화 및 리셋 함수 설정
-const storeResetFns = new Set<() => void>();
-
-// store의 상태와 메서드를 모킹함
-const createStore = () => {
-  const store = create<ModalImageId>((set) => ({
-    modalImage: mockImageData[0],
-    setModalImage: (value: Partial<ImageListProps> | undefined) =>
-      set({ modalImage: value }),
-  }));
-
-  const initialState = store.getState();
-  storeResetFns.add(() => store.setState(initialState, true));
-
-  return store;
-};
-
-beforeEach(() => {
-  // 모든 스토어 리셋
-  act(() => storeResetFns.forEach((resetFn) => resetFn()));
-});
+import useModalImageId from "@/store/modalImageIdStore";
 
 describe("Modal 컴포넌트 테스트", () => {
-  it("mocking된 zustand 최초 데이터는 mockImageData[0]이다.", () => {
-    const store = useModalImageId.getState();
-    expect(store.modalImage).toEqual(mockImageData[0]);
-  });
+  it("zustand 최초 데이터는 modalImage가 undefined이다.", () => {
+    // 상태를 리셋하여 기본 상태로 초기화
+    resetModalImageStore();
 
-  it("ImageCard 클릭 시 Modal이 표시되어야 한다", async () => {
+    // 상태를 가져와서 초기 상태 검증
+    const store = useModalImageId.getState();
+    expect(store.modalImage).toEqual(undefined);
+  });
+  it("ImageCard 클릭 시 store에 해당 imageCard의 데이터가 저장되어야 한다", async () => {
+    resetModalImageStore(); // 초기 상태로 설정
+
+    // 상태를 가져와서 초기 상태 검증
+    const firstStore = useModalImageId.getState();
+    expect(firstStore.modalImage).toEqual(undefined);
+
     const { getByTestId } = render(<ImageCard imageList={mockImageData[0]} />);
+    const user = userEvent.setup();
+
+    await user.click(getByTestId("image-card")); // 상태 업데이트가 완료될 때까지 기다림
+
+    const updateStore = useModalImageId.getState();
+    expect(updateStore.modalImage).toEqual(mockImageData[0]);
   });
 
   // it("사용자가 모달 Close 버튼을 클릭할 때 모달이 닫힌다.", () => {});

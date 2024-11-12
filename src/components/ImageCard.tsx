@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import type { ImageListProps } from "@/types/type";
+import useModalImageId from "@/store/modalImageIdStore";
 
 export interface ImageCardProps extends React.HTMLProps<HTMLDivElement> {
   imageList: Partial<ImageListProps>;
@@ -8,6 +9,8 @@ export interface ImageCardProps extends React.HTMLProps<HTMLDivElement> {
 
 const ImageCard: React.FC<ImageCardProps> = ({ imageList, ...props }: ImageCardProps) => {
   const imageCardRef = useRef<HTMLDivElement>(null);
+
+  const { modalImage, setModalImage } = useModalImageId();
   const [cardWidth, setCardWidth] = useState<number>(0);
 
   // 이미지 비율에 맞는 height 계산
@@ -33,7 +36,14 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageList, ...props }: ImageCardP
 
   return (
     <>
-      <div data-testid='image-card' ref={imageCardRef} {...props}>
+      <div
+        onClick={() => {
+          setModalImage(imageList);
+        }}
+        data-testid='image-card'
+        ref={imageCardRef}
+        {...props}
+      >
         <div className='relative w-full max-w-screen-md cursor-pointer overflow-hidden rounded-xl before:absolute before:z-10 before:size-full before:opacity-40 before:transition-all before:duration-150 hover:before:bg-black'>
           <Image
             className='bg-gray-200'

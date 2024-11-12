@@ -101,13 +101,7 @@ const List = ({ searchKeyword }: ListProps) => {
           {images?.pages.flatMap((page) =>
             page.data.map((image: Partial<ImageListProps>, index: number) => (
               <div key={image.id + "-" + index} className='mb-4 break-inside-avoid'>
-                <ImageCard
-                  imageList={image}
-                  onClick={() => {
-                    setModalImage(image);
-                    console.log(modalImage);
-                  }}
-                />
+                <ImageCard imageList={image} />
               </div>
             )),
           )}
