@@ -13,7 +13,6 @@ const useModalImageId = create<ModalImageId>((set) => ({
     set({ modalImage: value }),
 }));
 
-// store 초기화 함수
 const resetModalImageStore = () => {
   useModalImageId.setState({
     modalImage: undefined, // 초기 상태로 설정
