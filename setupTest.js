@@ -1,8 +1,26 @@
 // setupTest.js
 import "@testing-library/jest-dom";
+import "@testing-library/react/dont-cleanup-after-each";
+import { cleanup } from "@testing-library/react";
+import { vi, afterEach, beforeEach } from "vitest";
+
+//https://stackoverflow.com/questions/78954522/vitest-browser-mode-not-showing-anything
+
 // import { setupServer } from "msw/node";
-import { vi } from "vitest";
 // import { handlers } from "./src/mock/handlers";
+
+// 환경 변수 설정 (자동 cleanup 비활성화)
+process.env.RTL_SKIP_AUTO_CLEANUP = "true";
+
+// 각 테스트 전 DOM을 초기화
+beforeEach(() => {
+  cleanup();
+});
+
+afterEach(() => {
+  // 각 테스트 후 별도 작업은 필요하지 않음
+  return;
+});
 
 vi.mock("zustand");
 // MSW 서버 설정

@@ -21,13 +21,15 @@ describe("Modal 컴포넌트 테스트", () => {
     // 상태를 가져와서 초기 상태 검증
     const firstStore = useModalImageId.getState();
     expect(firstStore.modalImage).toEqual(undefined);
+    console.log(firstStore);
 
     const { getByTestId } = render(<ImageCard imageList={mockImageData[0]} />);
     const user = userEvent.setup();
 
     await user.click(getByTestId("image-card")); // 상태 업데이트가 완료될 때까지 기다림
 
-    // const updateStore = useModalImageId.getState();
-    // expect(updateStore.modalImage).toEqual(mockImageData[0]);
+    const updateStore = useModalImageId.getState();
+    expect(updateStore.modalImage).toEqual(mockImageData[0]);
+    console.log(updateStore);
   });
 });
