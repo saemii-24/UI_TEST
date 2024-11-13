@@ -1,5 +1,5 @@
 //https://mswjs.io/docs/basics/mocking-responses/
-import { mockImageData } from "@/test/mockdata";
+import { mockImageData } from "../../tests/mockdata";
 import { http, HttpResponse } from "msw";
 
 // 성공

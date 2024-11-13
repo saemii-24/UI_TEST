@@ -5,16 +5,22 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    "process.env": JSON.stringify({}),
+  },
   test: {
     inspectBrk: true,
     fileParallelism: false,
     browser: {
-      name: "chromium",
+      enabled: true,
       provider: "playwright",
+      name: "chromium",
+      headless: false,
     },
+
     globals: true,
     environment: "jsdom",
-    setupFiles: "./src/utils/test/setupTest.js", //'./로 시작하면 root에 생성 됨
+    setupFiles: "./setupTest.js", //'./로 시작하면 root에 생성 됨
     testTimeout: 10000,
   },
   resolve: {
