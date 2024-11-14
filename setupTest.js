@@ -21,7 +21,11 @@ import { handlers } from "./src/mock/handlers";
 // // MSW 서버 설정
 const worker = setupWorker(...handlers);
 
-beforeAll(() => worker.start()); // MSW 서버 시작
+beforeAll(() =>
+  worker.start({
+    onUnhandledRequest: "bypass", // 매칭되지 않는 요청 무시
+  }),
+);
 afterEach(() => worker.resetHandlers()); // 핸들러 리셋
 afterAll(() => worker.stop()); // MSW 서버 종료
 

@@ -63,7 +63,6 @@ const Modal = () => {
   };
 
   if (!modalImage || !modalImage.webformatURL) {
-    setModalImage(undefined);
     return null;
   }
 
@@ -74,14 +73,16 @@ const Modal = () => {
       className='fixed inset-0 z-[9999] h-screen w-full bg-black/30'
     >
       <div
+        role='dialog'
         ref={modalRef}
         className='relative left-1/2 top-1/2 h-[70vh] max-h-[560px] w-[90%] max-w-[500px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-lg'
       >
         <div
           data-testid='close-button'
           className='absolute right-4 top-4 z-[10000] cursor-pointer rounded-full bg-white p-2 text-2xl font-bold text-black'
+          onClick={() => setModalImage(undefined)}
         >
-          <VscChromeClose onClick={() => setModalImage(undefined)} />
+          <VscChromeClose />
         </div>
         <div className={cn("relative w-full h-[55%] flex-col")}>
           <Image
@@ -124,12 +125,12 @@ const Modal = () => {
                     >
                       {isLike ? (
                         <RiHeart3Fill
-                          data-testid='like-icon'
+                          data-testid='like-icon-fill'
                           className='text-xl text-red-500'
                         />
                       ) : (
                         <RiHeart3Line
-                          data-testid='like-icon'
+                          data-testid='like-icon-line'
                           className='text-xl text-red-500'
                         />
                       )}
@@ -159,7 +160,7 @@ const Modal = () => {
             href={modalImage.largeImageURL || ""}
             target='_blank'
           >
-            <Button rounded='full' width='full' color='blue'>
+            <Button name='다운로드' rounded='full' width='full' color='blue'>
               다운로드
             </Button>
           </Link>
