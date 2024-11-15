@@ -11,7 +11,7 @@ interface DropdownProps {
 
 const Dropdown = ({ localSearchKeyword, setValue, onRemove }: DropdownProps) => {
   return (
-    <ul className='absolute mt-1 w-full rounded-md border bg-white'>
+    <ul className=' mt-1 w-full max-w-[500px] rounded-md border bg-white'>
       {localSearchKeyword.map((keyword) => (
         <li
           key={keyword}

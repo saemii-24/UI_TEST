@@ -41,12 +41,14 @@ export const Default: StoryFn<typeof Dropdown> = (args) => {
   };
 
   return (
-    <Dropdown
-      {...args}
-      localSearchKeyword={keywords}
-      setValue={setValue}
-      onRemove={handleRemove}
-    />
+    <div className='relative '>
+      <Dropdown
+        {...args}
+        localSearchKeyword={keywords}
+        setValue={setValue}
+        onRemove={handleRemove}
+      />
+    </div>
   );
 };
 
