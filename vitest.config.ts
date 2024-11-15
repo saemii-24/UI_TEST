@@ -11,12 +11,12 @@ export default defineConfig({
   test: {
     inspectBrk: true,
     fileParallelism: false,
-    browser: {
-      enabled: true,
-      provider: "playwright",
-      name: "chromium",
-      headless: false,
-    },
+    // browser: {
+    //   enabled: false,
+    //   provider: "playwright",
+    //   name: "chromium",
+    //   headless: false,
+    // },
 
     globals: true,
     environment: "jsdom",

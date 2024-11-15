@@ -64,10 +64,11 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageList, ...props }: ImageCardP
                 <Image
                   src={imageList.userImageURL}
                   alt={`${imageList.id} image-user ${imageList.user}`}
-                  width='40'
-                  height='40'
-                  style={{ objectFit: "cover" }}
                   priority
+                  fill
+                  style={{
+                    objectFit: "cover",
+                  }}
                 />
               </div>
               <div className='text-base font-semibold'>Photo by. {imageList.user}</div>

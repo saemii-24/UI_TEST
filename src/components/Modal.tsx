@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import useModalImageId from "@/store/modalImageIdStore";
 import Image from "next/image";
@@ -103,8 +104,7 @@ const Modal = () => {
                   <Image
                     src={modalImage.userImageURL}
                     alt={`${modalImage.id} image-user ${modalImage.user}`}
-                    width='80'
-                    height='80'
+                    fill
                     style={{ objectFit: "cover" }}
                     priority
                   />

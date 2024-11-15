@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import ImageCard from "@/components/ImageCard";
-import { mockImageData } from "@/test/mockdata";
+import { mockImageData } from "../../tests/mockdata";
 
 const meta = {
   title: "Public/ImageCard",
@@ -19,8 +19,9 @@ export const Default: Story = {
     imageList: mockImageData[0],
   },
 };
-export const NoneUserInfo: Story = {
-  args: {
-    imageList: mockImageData[1],
-  },
-};
+
+// export const NoneUserInfo: Story = {
+//   args: {
+//     imageList: mockImageData[1],
+//   },
+// };

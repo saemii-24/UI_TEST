@@ -8,18 +8,19 @@ import { vi, afterEach, beforeEach } from "vitest";
 process.env.RTL_SKIP_AUTO_CLEANUP = "true";
 
 import { setupWorker } from "msw/browser";
+import { setupServer } from "msw/node";
 // import { setupServer } from "msw/node";
 import { handlers } from "./src/mock/handlers";
 
-// // MSW 서버 설정
-// const server = setupServer(...handlers);
+// MSW 서버 설정
+const server = setupServer(...handlers);
 
-// beforeAll(() => server.listen()); // MSW 서버 시작
-// afterEach(() => server.resetHandlers()); // 핸들러 리셋
-// afterAll(() => server.close()); // MSW 서버 종료
+beforeAll(() => server.listen()); // MSW 서버 시작
+afterEach(() => server.resetHandlers()); // 핸들러 리셋
+afterAll(() => server.close()); // MSW 서버 종료
 
 // // MSW 서버 설정
-const worker = setupWorker(...handlers);
+// const worker = setupWorker(...handlers);
 
 beforeAll(() =>
   worker.start({
