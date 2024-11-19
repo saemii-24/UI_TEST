@@ -1,11 +1,10 @@
 // __mocks__/zustand.ts
 import { act } from "@testing-library/react";
-import { vi } from "vitest";
 import type * as ZustandExportedTypes from "zustand";
 export * from "zustand";
 
 const { create: actualCreate, createStore: actualCreateStore } =
-  await vi.importActual<typeof ZustandExportedTypes>("zustand");
+  jest.requireActual<typeof ZustandExportedTypes>("zustand");
 
 // a variable to hold reset functions for all stores declared in the app
 export const storeResetFns = new Set<() => void>();
