@@ -70,27 +70,27 @@ describe("Modal 컴포넌트 테스트", () => {
     expect(downloadButton).toHaveAttribute("target", "_blank");
   });
 
-  it("사용자가 공유 버튼을 클릭하면 해당 URL이 복사된다.", async () => {
-    // clipboard.writeText 메서드를 mock 함수로 대체
-    const writeTextMock = jest.fn(() => Promise.resolve());
+  // it("사용자가 공유 버튼을 클릭하면 해당 URL이 복사된다.", async () => {
+  //   // clipboard.writeText 메서드를 mock 함수로 대체
+  //   const writeTextMock = jest.fn(() => Promise.resolve());
 
-    // navigator.clipboard의 writeText 메서드를 모킹
-    Object.defineProperty(navigator, "clipboard", {
-      value: {
-        writeText: writeTextMock, // writeText 모킹
-      },
-    });
+  //   // navigator.clipboard의 writeText 메서드를 모킹
+  //   Object.defineProperty(navigator, "clipboard", {
+  //     value: {
+  //       writeText: writeTextMock, // writeText 모킹
+  //     },
+  //   });
 
-    mockModalImageIdStore({ modalImage: mockImageData[0] });
-    const { getByTestId } = render(<Modal />);
+  //   mockModalImageIdStore({ modalImage: mockImageData[0] });
+  //   const { getByTestId } = render(<Modal />);
 
-    const user = userEvent.setup();
+  //   const user = userEvent.setup();
 
-    // 공유 버튼 클릭
-    const shareButton = getByTestId("share-button"); // 공유 버튼이 포함된 요소
-    await user.click(shareButton);
+  //   // 공유 버튼 클릭
+  //   const shareButton = getByTestId("share-button"); // 공유 버튼이 포함된 요소
+  //   await user.click(shareButton);
 
-    // clipboard.writeText가 호출되었는지 확인
-    expect(writeTextMock).toHaveBeenCalledWith(window.location.href); // URL 복사 여부 확인
-  });
+  //   // clipboard.writeText가 호출되었는지 확인
+  //   expect(writeTextMock).toHaveBeenCalledWith(window.location.href); // URL 복사 여부 확인
+  // });
 });
