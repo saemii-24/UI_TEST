@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { mockImageData } from "./mockdata";
 import {
@@ -69,28 +69,34 @@ describe("Modal 컴포넌트 테스트", () => {
     expect(downloadButton).toHaveAttribute("href", mockImageData[0].largeImageURL);
     expect(downloadButton).toHaveAttribute("target", "_blank");
   });
+  it("사용자가 공유 버튼을 클릭하면 해당 URL이 복사된다.", async () => {
+    // alert를 mock 처리
+    window.alert = jest.fn();
 
-  // it("사용자가 공유 버튼을 클릭하면 해당 URL이 복사된다.", async () => {
-  //   // clipboard.writeText 메서드를 mock 함수로 대체
-  //   const writeTextMock = jest.fn(() => Promise.resolve());
+    Object.defineProperty(global.navigator, "clipboard", {
+      value: {
+        writeText: jest.fn(),
+      },
+      writable: true, // 이 속성을 true로 설정하여 수정 가능하도록 함
+    });
 
-  //   // navigator.clipboard의 writeText 메서드를 모킹
-  //   Object.defineProperty(navigator, "clipboard", {
-  //     value: {
-  //       writeText: writeTextMock, // writeText 모킹
-  //     },
-  //   });
+    const writeTextMock = jest
+      .spyOn(navigator.clipboard, "writeText")
+      .mockResolvedValue();
 
-  //   mockModalImageIdStore({ modalImage: mockImageData[0] });
-  //   const { getByTestId } = render(<Modal />);
+    // mock 데이터 및 store 설정
+    mockModalImageIdStore({ modalImage: mockImageData[0] });
 
-  //   const user = userEvent.setup();
+    // Modal 컴포넌트 렌더링
+    const { getByTestId } = render(<Modal />);
 
-  //   // 공유 버튼 클릭
-  //   const shareButton = getByTestId("share-button"); // 공유 버튼이 포함된 요소
-  //   await user.click(shareButton);
+    const shareButton = getByTestId("share-button");
+    fireEvent.click(shareButton); // 클릭 이벤트 발생
 
-  //   // clipboard.writeText가 호출되었는지 확인
-  //   expect(writeTextMock).toHaveBeenCalledWith(window.location.href); // URL 복사 여부 확인
-  // });
+    // writeTextMock 호출 여부 검증
+    await waitFor(() => {
+      expect(writeTextMock).toHaveBeenCalledWith(mockImageData[0].largeImageURL);
+    });
+    // console.log(mockImageData[0].largeImageURL);
+  });
 });
