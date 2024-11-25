@@ -27,7 +27,7 @@ const SigninForm = ({ onSubmit }: SigninFormProps) => {
       <div className='mt-2 text-center text-gray-800'>
         로그인하고 좋아하는 이미지를 저장해보세요
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
+      <form onSubmit={handleSubmit(onSubmit)} className='mt-5' role='form'>
         <Input
           name='id'
           placeholder='아이디를 입력해주세요'
