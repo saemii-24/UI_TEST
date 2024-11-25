@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     instrumentationHook: true,
+    forceSwcTransforms: true,
   },
   images: {
     remotePatterns: [
