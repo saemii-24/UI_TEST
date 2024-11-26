@@ -57,31 +57,29 @@ describe("SigninForm 테스트", () => {
 
   it("유효성 검사가 통과되지 않을 경우 에러 메세지가 표시된다", async () => {
     const onSubmit = jest.fn();
-    const { getByPlaceholderText, getByTestId } = render(
-      <SigninForm onSubmit={onSubmit} />,
-    );
+    render(<SigninForm onSubmit={onSubmit} />);
 
-    const id = getByPlaceholderText("아이디를 입력해주세요");
-    const password = getByPlaceholderText("비밀번호를 입력해주세요");
-    const submitBtn = getByTestId("signin");
+    const id = screen.getByPlaceholderText("아이디를 입력해주세요");
+    const password = screen.getByPlaceholderText("비밀번호를 입력해주세요");
+    const submitButton = screen.getByTestId("signin");
 
     // 올바르지 않은 입력값
-    // This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
-    fireEvent.change(id, { target: { value: "id" } }); //유효성 검사에 통과되지 않을 잘못된 값을 입력한다.
-    fireEvent.click(submitBtn);
-    // 에러 메시지 확인
-    await waitFor(() => {
-      expect(
-        screen.getByText(/아이디는 올바른 이메일 형식으로 입력해야 합니다./),
-      ).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.change(id, { target: { value: "id" } });
+      fireEvent.change(password, { target: { value: "password" } });
     });
 
-    fireEvent.change(password, { target: { value: "password" } }); //유효성 검사에 통과되지 않을 잘못된 값을 입력한다.
-    fireEvent.click(submitBtn);
+    // 제출 시도
+    fireEvent.click(submitButton);
+
     // 에러 메시지 확인
     await waitFor(() => {
+      screen.debug();
       expect(
-        screen.getByText(/비밀번호는 8~20자의 특수문자와 영문자를 포함해야 합니다./),
+        screen.getByText("아이디는 올바른 이메일 형식으로 입력해야 합니다."),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("비밀번호는 8~20자의 특수문자와 영문자를 포함해야 합니다."),
       ).toBeInTheDocument();
     });
   });

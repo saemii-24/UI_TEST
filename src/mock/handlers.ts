@@ -1,9 +1,10 @@
 //https://mswjs.io/docs/basics/mocking-responses/
+
 import { mockImageData } from "../../tests/mockdata";
 import { http, HttpResponse } from "msw";
 
 // 성공
-const successHandler = http.get("https://example.com/user", () => {
+const successHandler = http.get("https://example.com/test", () => {
   return HttpResponse.json(mockImageData);
 });
 

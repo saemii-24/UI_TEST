@@ -11,7 +11,7 @@ export interface SigninProps {
 
 const Signin = () => {
   const fetchData = async () => {
-    const fetchUrl = "https://example.com/user";
+    const fetchUrl = "https://example.com/test";
     const response = await fetch(fetchUrl);
     const data = await response.json();
 
