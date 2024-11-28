@@ -17,3 +17,40 @@ body {
 .center-absolute {
   @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
 }
+
+/* fade-in 애니메이션 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* fade-out 애니메이션 */
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* 공통 클래스 */
+.fade {
+  animation-fill-mode: forwards; /* 애니메이션 종료 후 마지막 상태 유지 */
+}
+
+/* fade-in 클래스 */
+.fade-in {
+  animation-fill-mode: forwards;
+  animation: fade-in 0.5s ease-in-out;
+}
+
+/* fade-out 클래스 */
+.fade-out {
+  animation-fill-mode: forwards;
+  animation: fade-out 0.5s ease-in-out;
+}
