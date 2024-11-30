@@ -106,7 +106,7 @@ const List = ({ searchKeyword }: ListProps) => {
             )),
           )}
         </div>
-        <div ref={ref} className='h-20 bg-red-400'></div>
+        <div ref={ref} className='h-20 '></div>
       </div>
     </>
   );

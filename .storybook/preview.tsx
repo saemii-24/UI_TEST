@@ -11,6 +11,13 @@ const preview: Preview = {
       </div>
     ),
   ],
+  parameters: {
+    a11y: {
+      // Axe 옵션 설정
+      config: {}, //특정한 사용자 설정 없이 모든 규칙 활성화
+      options: {}, //특정한 사용자 옵션 없이 모든 기본 검사 수행
+    },
+  },
 };
 
 export default preview;
