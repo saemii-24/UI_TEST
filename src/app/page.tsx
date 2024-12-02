@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
 
@@ -7,6 +7,9 @@ import Input from "@/components/Input";
 import Title from "@/components/Title";
 import List from "@/components/List";
 import Link from "next/link";
+import useToastStore from "@/store/useToastStore";
+import { flushSync } from "react-dom";
+import Toast from "@/components/Toast";
 
 export interface searchProps {
   searchKeyword: string;
@@ -51,6 +54,17 @@ export default function Home() {
     "https://cdn.pixabay.com/photo/2020/05/06/06/18/blue-5136251_1280.jpg",
   );
 
+  const { isToastVisible, hideToast } = useToastStore(); // Zustand 상태 사용
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const handleAnimationEnd = () => {
+    if (!isToastVisible) {
+      flushSync(() => {
+        hideToast(); // 애니메이션 종료 시 Toast 숨김
+      });
+    }
+  };
+
   return (
     <div className='min-h-screen w-full'>
       <div className='relative flex h-[450px] w-full items-center justify-center'>
@@ -93,6 +107,16 @@ export default function Home() {
       <div className='container mx-auto'>
         <List searchKeyword={searchNow} />
       </div>
+      {/* Zustand 상태를 기반으로 Toast 렌더링 */}
+      {isToastVisible && (
+        <Toast
+          ref={ref}
+          className='fade-in' // 애니메이션 클래스
+          onAnimationEnd={handleAnimationEnd}
+        >
+          예제 토스트 문구입니다.
+        </Toast>
+      )}
     </div>
   );
 }

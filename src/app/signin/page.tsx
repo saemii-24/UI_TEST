@@ -1,6 +1,8 @@
 "use client";
 import SigninForm from "@/components/SigninForm";
+import useToastStore from "@/store/useToastStore";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { SubmitHandler } from "react-hook-form";
 
@@ -24,8 +26,12 @@ const Signin = () => {
   });
   console.log(data);
 
+  const router = useRouter();
+  const { isToastVisible, showToast } = useToastStore(); // Zustand 상태 사용
+
   const onSubmit: SubmitHandler<SigninProps> = (data) => {
-    console.log(data);
+    router.push("/");
+    showToast();
   };
 
   return (
