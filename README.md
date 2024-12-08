@@ -47,27 +47,26 @@
 
 ## 설치 및 실행 방법
 
-1. 레포지토리 클론
+1. **레포지토리 클론**
 
 ```bash
 git clone https://github.com/saemii-24/UI_TEST.git
 ```
 
-2. 의존성 설치
+2. **의존성 설치**
 
 ```bash
 npm install
 ```
 
-3. 환경 변수 설정
-
-프로젝트 루트 디렉토리에 .env 파일을 추가하고, Pixabay API 키를 설정합니다.
+3. **환경 변수 설정**
+   프로젝트 루트 디렉토리에 .env 파일을 추가하고, Pixabay API 키를 설정합니다.
 
 ```env
 NEXT_PUBLIC_API_KEY = (발급받은 API KEY를 설정합니다.)
 ```
 
-4. 개발 서버 실행
+4. **개발 서버 실행**
 
 ```bash
 npm run dev
