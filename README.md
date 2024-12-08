@@ -16,22 +16,22 @@
 
 ## 사용 기술
 
-- **프론트엔드**
+- **프론트엔드** <br/>
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=for-the-badge&logo=Tailwind%20CSS&logoColor=white">
 
-- **상태 관리**
+- **상태 관리** <br/>
   <img src="https://img.shields.io/badge/Zustand-0070F3?style=for-the-badge&logo=Zustand&logoColor=white">
 
-- **데이터 Fetching**
+- **데이터 Fetching** <br/>
   <img src="https://img.shields.io/badge/TanStack%20Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
 
-- **API**
+- **API** <br/>
   <img src="https://img.shields.io/badge/Pixabay-FFCC00?style=for-the-badge&logo=Pixabay&logoColor=white">
 
-- **폼 관리**
+- **폼 관리** <br/>
   <img src="https://img.shields.io/badge/React%20Hook%20Form-EC5990?style=for-the-badge&logo=React%20Hook%20Form&logoColor=white">
 
-- **테스트**
+- **테스트** <br/>
   <img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=Jest&logoColor=white"> <img src="https://img.shields.io/badge/Storybook-FF4785?style=for-the-badge&logo=Storybook&logoColor=white"> <img src="https://img.shields.io/badge/MSW-47A2FF?style=for-the-badge&logo=MSW&logoColor=white">
 
 ## 주요 기능
