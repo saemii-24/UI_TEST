@@ -40,7 +40,7 @@ const Page = () => {
       )}
       <button
         onClick={toggleBox}
-        className='px-4 py-10 text-white bg-blue-500 rounded hover:opacity-50 z-[999999]'
+        className='z-[999999] rounded bg-blue-500 px-4 py-10 text-white hover:opacity-50'
       >
         토스트 보기
       </button>
