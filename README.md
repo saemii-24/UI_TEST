@@ -16,17 +16,23 @@
 
 ## 사용 기술
 
-프론트엔드: <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=for-the-badge&logo=Tailwind%20CSS&logoColor=white">
+- **프론트엔드**
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=for-the-badge&logo=Tailwind%20CSS&logoColor=white">
 
-상태 관리: <img src="https://img.shields.io/badge/Zustand-0070F3?style=for-the-badge&logo=Zustand&logoColor=white">
+- **상태 관리**
+  <img src="https://img.shields.io/badge/Zustand-0070F3?style=for-the-badge&logo=Zustand&logoColor=white">
 
-데이터 Fetching: <img src="https://img.shields.io/badge/TanStack%20Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
+- **데이터 Fetching**
+  <img src="https://img.shields.io/badge/TanStack%20Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
 
-API: <img src="https://img.shields.io/badge/Pixabay-FFCC00?style=for-the-badge&logo=Pixabay&logoColor=white">
+- **API**
+  <img src="https://img.shields.io/badge/Pixabay-FFCC00?style=for-the-badge&logo=Pixabay&logoColor=white">
 
-폼 관리: <img src="https://img.shields.io/badge/React%20Hook%20Form-EC5990?style=for-the-badge&logo=React%20Hook%20Form&logoColor=white">
+- **폼 관리**
+  <img src="https://img.shields.io/badge/React%20Hook%20Form-EC5990?style=for-the-badge&logo=React%20Hook%20Form&logoColor=white">
 
-테스트: <img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=Jest&logoColor=white"> <img src="https://img.shields.io/badge/Storybook-FF4785?style=for-the-badge&logo=Storybook&logoColor=white"> <img src="https://img.shields.io/badge/MSW-47A2FF?style=for-the-badge&logo=MSW&logoColor=white">
+- **테스트**
+  <img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=Jest&logoColor=white"> <img src="https://img.shields.io/badge/Storybook-FF4785?style=for-the-badge&logo=Storybook&logoColor=white"> <img src="https://img.shields.io/badge/MSW-47A2FF?style=for-the-badge&logo=MSW&logoColor=white">
 
 ## 주요 기능
 
@@ -71,4 +77,4 @@ npm run dev
 
 Chromatic을 통해 배포된 컴포넌트 시각화와 테스트를 위한 Storybook을 아래 링크에서 확인할 수 있습니다.
 
-[Storybook](https://6728c81a31a148aa35ef7e13-exrexqzpjh.chromatic.com/?path=/docs/configure-your-project--docs)
+🔗[Storybook](https://6728c81a31a148aa35ef7e13-exrexqzpjh.chromatic.com/?path=/docs/configure-your-project--docs)
